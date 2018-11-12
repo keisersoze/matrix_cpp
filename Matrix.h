@@ -6,24 +6,38 @@
 #define MATRIX_CPP_MATRIX_H
 
 #include <array>
+#include <ostream>
 
 template <class E, int m1, int n1> class Matrix {
 private:
+
     std::shared_ptr <std::array<E,n1*m1>> matrix_ptr;
+
     bool transposed;
     bool diagonalized;
-    int m2;
-    int n2;
+    int m_;
+    int n_;
+
+    Matrix(const std::shared_ptr<std::array<E, n1 * m1>> &matrix_ptr);
+
 public:
-    Matrix();
+
+    Matrix(const E Matrix[m1][n1]);
+
     virtual ~Matrix();
-    Matrix (const Matrix &matrix);
 
-    Matrix submatrix(int n, int m);
-    Matrix transpose();
-    Matrix diagonal();
-    const Matrix diagonalMatrix();
+    void setTransposed(bool transposed);
 
+    void setDiagonalized(bool diagonalized);
+
+    //matrix<E> submatrix(int n, int m);
+    Matrix<E, n1, m1> transpose();
+    Matrix<E, m1, n1> diagonal();
+    const Matrix <E, m1, n1> diagonalMatrix();
+
+
+    //only for testing purpose
+    void print ();
 };
 
 

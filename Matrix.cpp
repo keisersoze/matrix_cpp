@@ -4,17 +4,7 @@
 
 #include "Matrix.h"
 
-template<class E, int m, int n>
-Matrix<E, m, n>::Matrix() {
-    v= new std::array<E,m*n>;
-}
-
-template<class E, int m, int n>
-Matrix<E, m, n>::~Matrix() {
-    delete v;
-}
-
-template<class E, int m, int n>
-Matrix<E, m, n>::Matrix(const Matrix &matrix) {
+template<class E, int m1, int n1>
+Matrix<E, m1, n1>::Matrix() {
 
 }

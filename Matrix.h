@@ -7,20 +7,22 @@
 
 #include <array>
 
-template <class E, int m, int n> class Matrix {
+template <class E, int m1, int n1> class Matrix {
 private:
-    std::array<E,n*m> v;
+    std::shared_ptr <std::array<E,n1*m1>> matrix_ptr;
+    bool transposed;
+    bool diagonalized;
+    int m2;
+    int n2;
 public:
     Matrix();
     virtual ~Matrix();
     Matrix (const Matrix &matrix);
 
-    void submatrix(int n1, int m1);
-    void transpose();
-    void diagonal();
-    void diagonalMatrix();
-
-
+    Matrix submatrix(int n, int m);
+    Matrix transpose();
+    Matrix diagonal();
+    const Matrix diagonalMatrix();
 
 };
 

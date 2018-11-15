@@ -5,20 +5,23 @@
 #ifndef MATRIX_CPP_MATRIX_H
 #define MATRIX_CPP_MATRIX_H
 
-#include <array>
-#include <ostream>
+#include <vector>
+#include <iostream>
+#include <memory>
+
+using namespace std;
 
 template <class E, int m1, int n1> class Matrix {
 private:
+    class Bad_Input{}; // to throw errors, for example when m1 < 1 
+    shared_ptr < vector < E, n1 * m1 > > matrix_ptr; //by_arn: explaination needed...?
 
-    std::shared_ptr <std::array<E,n1*m1>> matrix_ptr;
-
-    bool transposed;
+    bool transposed;    
     bool diagonalized;
     int m_;
     int n_;
 
-    Matrix(const std::shared_ptr<std::array<E, n1 * m1>> &matrix_ptr);
+    Matrix(const shared_ptr < vector<E, n1 * m1>> & matrix_ptr);
 
 public:
 
@@ -26,20 +29,28 @@ public:
 
     virtual ~Matrix();
 
-    void setTransposed(bool transposed);
+    void setTransposed(bool transposed);        // by_arn: what are these bools implying for implementation? If you use a setter for transposed you'll cause errors
 
     void setDiagonalized(bool diagonalized);
+
+    // Getters
+    int get_row();
+
+    int get_column();
+
+    E get(int r_index, int c_index);
+
+    E operator()(int r_index, int c_index);
 
     //matrix<E> submatrix(int n, int m);
     Matrix<E, n1, m1> transpose();
     Matrix<E, m1, n1> diagonal();
     const Matrix <E, m1, n1> diagonalMatrix();
 
-
+    
     //only for testing purpose
     void print ();
 };
-
 
 
 #endif //MATRIX_CPP_MATRIX_H

@@ -8,7 +8,7 @@ using namespace std; // Usually it's bad practice to use "using namespace" in he
 
 template<class E, int m1, int n1>
 Matrix<E, m1, n1>::Matrix(const E matrix[m1][n1]) {
-    vector<E,n1*m1> *vector =matrix_ptr.get();
+    vector<E> *vector =matrix_ptr.get();
     for (int i = 0; i < m1 ; ++i) {
         for (int j = 0; j < n1; ++j) {
             vector[i][j] = matrix[j][i];
@@ -17,7 +17,7 @@ Matrix<E, m1, n1>::Matrix(const E matrix[m1][n1]) {
 }
 
 template<class E, int m1, int n1>
-Matrix<E, m1, n1>::Matrix(const shared_ptr < vector<E, (n1 * m1) >> &matrix_ptr):matrix_ptr(matrix_ptr) { // by_arn type error? not sure if I've done it
+Matrix<E, m1, n1>::Matrix(const shared_ptr < vector<E> > &matrix_ptr):matrix_ptr(matrix_ptr) { // by_arn type error? not sure if I've done it
     transposed = false;
     diagonalized = false;
     n_=n1;

@@ -14,14 +14,14 @@ using namespace std;
 template <class E, int m1, int n1> class Matrix {
 private:
     class Bad_Input{}; // to throw errors, for example when m1 < 1 
-    shared_ptr < vector < E, n1 * m1 > > matrix_ptr; //by_arn: explaination needed...?
+    shared_ptr < vector < E > > matrix_ptr; //by_arn: explaination needed...?
 
     bool transposed;    
     bool diagonalized;
     int m_;
     int n_;
 
-    Matrix(const shared_ptr < vector<E, n1 * m1>> & matrix_ptr);
+    Matrix(const shared_ptr < vector<E> > & matrix_ptr);
 
 public:
 

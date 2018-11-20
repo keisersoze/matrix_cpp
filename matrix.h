@@ -23,7 +23,7 @@ class matrix {
 
 private:
     //class Bad_Input{}; // to throw errors, for example when m1 < 1
-    shared_ptr < array <  E , c * r > > matrix_ptr; //by_arn: explaination needed...?
+    shared_ptr < array <  E , c * r > > matrix_ptr;
 
 public:
 
@@ -31,7 +31,7 @@ public:
 
     matrix(const array<E, c * r > &array);
 
-    E at (int accessed_row, int accessed_column);
+    E at (int accessed_row, int accessed_column); //by_arn: non è virtual? sicuro?
 
     virtual E operator()(int accessed_row, int accessed_column);
 

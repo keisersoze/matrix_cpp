@@ -19,9 +19,14 @@ template<typename E, int r, int c>
 E matrix<E, r, c>::at(int accessed_row, int accessed_column) {
     array<E, c * r > v = *(matrix_ptr.get());
     if(accessed_row < 1) {
-        //return nullptr;
+        // return nullptr; by_arn dovrebbe ritornare un errore
+        // throw Bad_input{};
     }else if (accessed_column < 1){
-        //return nullptr;
+        //return nullptr; by_arn dovrebbe ritornare un errore
+        // throw Bad_input{};
+    }else if ( accessed_row > r || accessed_column > c ){
+        //return nullptr; by_arn dovrebbe ritornare un errore
+        // throw Bad_input{};
     }else
         return v[ c * (accessed_row - 1) + accessed_column - 1];
 }

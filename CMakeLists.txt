@@ -3,4 +3,4 @@ project(matrix_cpp)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(test2 main.cpp matrix.cpp transposed_matrix.cpp transposed_matrix.h)
+add_executable(test2 main.cpp)

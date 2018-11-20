@@ -4,8 +4,7 @@
 
 #include <iostream>
 #include <memory>
-#include "matrix.cpp"
-
+#include "matrix.h"
 
 int main (){
     /*int  mymatrix [3][3] = { { 1, 2, 3 },

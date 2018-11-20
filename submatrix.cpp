@@ -5,7 +5,7 @@
 #include "submatrix.h"
 
 template <typename E, int r, int c>
-submatrix(matrix<E, r, c> *matrix, int upper_row, int upper_col){
+submatrix<E, r, c>::submatrix(matrix<E, r, c> *matrix, int upper_row, int upper_col){
     if (upper_row > lower_row || upper_col > lower_col || sub_r != lower_row - upper_row + 1 || sub_c != lower_col - upper_col + 1 ){
         // throw Bad_size();
     }else {

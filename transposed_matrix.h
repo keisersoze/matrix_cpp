@@ -7,7 +7,7 @@
 
 #include "matrix.h"
 template <typename E, int r, int c>
-class transposed_matrix : public /* protected private */ matrix < E , c , r> { //sicuro che può essere public? significa che può essere creata dall'utente. penso dovrebbe essere "protected" o "private". Consiglio di tenerla public e quando testiamo proviamo a cambiare l'impostazione.
+class transposed_matrix : public /* protected private */ matrix < E , c , r> { // by_arn:sicuro che può essere public? significa che può essere creata dall'utente. penso dovrebbe essere "protected" o "private". Consiglio di tenerla public e quando testiamo proviamo a cambiare l'impostazione.
 
 private:
     matrix<E, r, c> *wrapped_matrix;

@@ -35,7 +35,14 @@ public:
 
     virtual E operator()(int accessed_row, int accessed_column);
 
-    matrix<E, c, r>* transpose();
+    matrix<E, c, r>* transpose(); // by_arn: non ritorna una transposed_matrix?
+
+    //inizio codice di arn
+    /* ERRORE: cosa scrivo nel tipo di ritorno? deve ritornare una matrice <E, intero_non_conosciuto, intero_non_conosciuto > */
+    matrix< E, sub_r, sub_c >* submatrix(int upper_row, int upper_col, int lower_row, int lower_col); //by_arn  
+    //fine codice di arn 
+
+    //matrix
 
     void print ();
 };

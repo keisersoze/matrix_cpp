@@ -49,3 +49,10 @@ template<typename E, int r, int c>
 matrix<E, c, r>* matrix<E, r, c>::transpose() {
     return new transposed_matrix<E, r, c>(this);
 }
+
+//inizio codice di arn
+/* cosa scrivo nel tipo di ritorno? deve ritornare una matrice di dimensione non conosciuta fino alla chiamata della funzione */
+matrix<E, sub_r, sub_c >* Matrix<E, r, c>::submatrix(int upper_row, int upper_col, int lower_row, int lower_col){
+    return new submatrix< E, sub_r, sub_c>(this, upper_row, upper_col, lower_row, lower_col);
+}   
+//fine codice di arn 

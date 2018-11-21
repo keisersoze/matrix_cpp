@@ -210,6 +210,7 @@ E submatrix<E, r, c>::operator()(int accessed_row, int accessed_column) {
 
 //inizio codice di arn
 // ERRORE: cosa scrivo nel tipo di ritorno? deve ritornare una matrice <E, intero_non_conosciuto, intero_non_conosciuto >
+//soluzione? auto
 //base_matrix< E, sub_r, sub_c >* submatrix(int upper_row, int upper_col, int lower_row, int lower_col); //by_arn
 //fine codice di arn
 

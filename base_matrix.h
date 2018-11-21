@@ -45,6 +45,7 @@ public:
     virtual E operator()(int accessed_row, int accessed_column);
 
     transposed_matrix<E, c, r> transpose(); // by_arn: non ritorna una transposed_matrix?
+    diagonal_matrix<E, r, c> diagonal( E zero );
 
     void print ();
 };
@@ -91,6 +92,21 @@ public:
     E operator()(int accessed_row, int accessed_column);
 };
 
+class diagonal_matrix : public /* protected private */ base_matrix < E , c , r> { // by_arn:sicuro che può essere public? significa che può essere creata dall'utente. penso dovrebbe essere "protected" o "private". Consiglio di tenerla public e quando testiamo proviamo a cambiare l'impostazione.
+
+private:
+    base_matrix<E, c, r> *wrapped_matrix;
+    E zero;
+
+public:
+
+    diagonal_matrix(base_matrix<E, c, r> *matrix);
+
+    diagonal_matrix(const transposed_matrix<E, r, c> &transposed_matrix);
+
+    E operator()(int accessed_row, int accessed_column);
+};
+
 
 /**
  * Implementation of matrix
@@ -130,8 +146,9 @@ E base_matrix<E, r, c>::operator()(int accessed_row, int accessed_column) {
 template<typename E, int r, int c>
 void base_matrix<E, r, c>::print() {
     array<int, c * r> array= *(matrix_ptr.get());
+    cout<<'\n|';
     for (int i = 0; i < c * r; ++i) {
-        std::cout << array[i] << ' ';
+        std::cout << array[i] << (i+1%r==0)? '|\n|' : ' ';
     }
 }
 
@@ -139,6 +156,10 @@ template<typename E, int r, int c>
 transposed_matrix<E, c , r > base_matrix<E, r, c>::transpose() {
     transposed_matrix<E, c, r> temp_matrix (this);
     return temp_matrix;
+}
+
+diagonal_matrix<E, c, r> base_matrix<E, r, c>::diagonal( const E zero_ ) {
+    diagonal_matrix<E, c, r> temp_matrix(this , zero_);
 }
 
 /**
@@ -163,6 +184,7 @@ E transposed_matrix<E, r, c>::operator()(int accessed_row, int accessed_column) 
 /**
  * Implementation of submatrix
  */
+
 /*
 template <typename E, int r, int c>
 submatrix<E, r, c>::submatrix(base_matrix<E, r, c> *base_matrix, int upper_row, int upper_col){
@@ -197,5 +219,20 @@ base_matrix<E, sub_r, sub_c >* Matrix<E, r, c>::submatrix(int upper_row, int upp
     return new submatrix< E, sub_r, sub_c>(this, upper_row, upper_col, lower_row, lower_col);
 }   */
 //fine codice di arn
+
+
+
+/*
+ * Implementation of diagonal
+ */
+
+diagonal_matrix<E, r, c>::diagonal_matrix(base_matrix<E, c, r> *matrix, const E zero_ ) {
+    wrapped_matrix = matrix;
+    zero = zero_;
+}
+
+E diagonal_matrix<E, r, c>::operator()(int accessed_row, int accessed_column) {
+    return (accessed_row == accessed_column)? wrapped_matrix->at(accessed_column, accessed_row) : zero ;
+}
 
 #endif // MATRIX_CPP_MATRIX_H

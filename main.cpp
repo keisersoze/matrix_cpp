@@ -4,7 +4,10 @@
 
 #include <iostream>
 #include <memory>
+#include "matrix_impl.h"
 #include "base_matrix.h"
+#include "transposed_matrix.h"
+
 
 int main (){
     /*int  mymatrix [3][3] = { { 1, 2, 3 },
@@ -14,7 +17,6 @@ int main (){
     base_matrix<int,2,3> matrix1(a2);
     //matrix1.print();
     cout<<matrix1(1,3)<<" ";
-    transposed_matrix<int,3,2> transposed1 = matrix1.transpose();
-    cout<<transposed1 (3,1);
+    matrix1.transpose();
     return 0;
 }

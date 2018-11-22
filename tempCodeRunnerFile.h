@@ -81,3 +81,6 @@ void base_matrix<E, r, c>::print() {
         std::cout << array[i] << ' ';
     }
 }
+
+
+virtual E operator()(int accessed_row, int accessed_column) = 0;

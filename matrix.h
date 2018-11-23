@@ -12,24 +12,21 @@ class matrix {
 
 private:
 
-    shared_ptr < matrix_impl <E> > m;
+    shared_ptr < matrix_impl <E> > wrapped_matrix;
 
 public:
 
-    matrix(const vector<E> &data, int r, int c){
-        m = make_shared < base_matrix_impl <E> > (data,r,c);
+    matrix(const vector<E> &data, int r, int c): wrapped_matrix (new base_matrix_impl<E>(data,r,c)){
     }
 
     E get(int accessed_row, int accessed_column){
-        return m -> get(accessed_row,accessed_column);
+        return wrapped_matrix -> get(accessed_row,accessed_column);
     }
 
-    matrix transpose(){
-        m = make_shared < transposed_matrix_impl <E> > (m.get());
+    matrix* transpose(){
+        wrapped_matrix.reset(new transposed_matrix_impl <E> (wrapped_matrix));
+        return this;
     }
-
-
-
 
 };
 

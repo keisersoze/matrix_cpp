@@ -13,7 +13,8 @@ int main (){
                              { 7, 8, 9 } };*/
     std::vector < int > a2 = {1, 2, 3, 4, 5, 6};
     matrix<int> matrix1(a2,2,3);
-    cout<<matrix1.get(2,3);
+    cout<<matrix1.get(2,2);
+    cout<<matrix1.transpose()->get(2,2);
 
     return 0;
 }

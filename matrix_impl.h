@@ -16,7 +16,12 @@ class matrix_impl {
 
 public:
 
-    virtual E get(int accessed_row, int accessed_column) = 0;
+    virtual E get(int accessed_row, int accessed_column) = 0; //pure virtual
+
+    virtual int getRowNumber() = 0;
+
+    virtual int getColumnNumber() = 0;
+
 
 };
 
@@ -34,16 +39,19 @@ public:
 
     base_matrix_impl(const vector<E> &data, int r, int c) : r(r), c(c), data(data) {}
 
-    E get(int accessed_row, int accessed_column) {
-        if (accessed_row < 1) {
-            // return nullptr; by_arn dovrebbe ritornare un errore
-            // throw Bad_input{};
-        } else if (accessed_column < 1) {
-            //return nullptr; by_arn dovrebbe ritornare un errore
-            // throw Bad_input{};
-        } else if (accessed_row > r || accessed_column > c) {
-            //return nullptr; by_arn dovrebbe ritornare un errore
-            // throw Bad_input{};
+    int getRowNumber() override {
+        return r;
+    }
+
+    int getColumnNumber() override {
+        return c;
+    }
+
+    E get(int accessed_row, int accessed_column) override {
+        if (accessed_row < 1 || accessed_row > r) {
+            throw "Out of bound row index";
+        } else if (accessed_column < 1 || accessed_column > c) {
+            throw "Out of bound column index";
         } else
             return data[c * (accessed_row - 1) + accessed_column - 1];
     }
@@ -55,16 +63,28 @@ class transposed_matrix_impl : public matrix_impl <E>{ // by_arn:sicuro che può
 
 private:
 
-    matrix_impl<E> *wrapped_matrix; //utilzzare smart pointers (unique)
+    shared_ptr< matrix_impl<E> > matrix_ptr; //TODO unique pointers
 
 public:
 
-    transposed_matrix_impl(matrix_impl<E> *matrix){
-        wrapped_matrix = matrix;
+    transposed_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr): matrix_ptr(decorated_matrix_ptr){
+    }
+
+    int getRowNumber() override {
+        return matrix_ptr->getColumnNumber();
+    }
+
+    int getColumnNumber() override {
+        return matrix_ptr->getRowNumber();
     }
 
     E get(int accessed_row, int accessed_column) {
-        return wrapped_matrix->get(accessed_column, accessed_row);
+        if (accessed_row < 1 || accessed_row > getRowNumber()) {
+            throw "Out of bound row index";
+        } else if (accessed_column < 1 || accessed_column > getColumnNumber()) {
+            throw "Out of bound column index";
+        } else
+        return matrix_ptr->get(accessed_column, accessed_row);
     }
 
 };

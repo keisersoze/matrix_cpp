@@ -100,10 +100,6 @@ class diagonal_matrix_impl : public matrix_impl <E>{
 private:
 
     shared_ptr< matrix_impl<E> > matrix_ptr;
-    // OCCHIO
-    const E zero = 0; 
-    // Noi vogliamo che in ogni punto non diagonale (row != col) la matrice ritorni 0. Ovviamente preimpostarlo a 0 non va bene per gli oggetti diversi da numeri e caratteri (già con le stringhe dà errori).
-    // soluzione: inserire il parametro nel costruttore della diagonale!
 
 public:
 
@@ -114,18 +110,18 @@ public:
         return matrix_ptr->getRowNumber();
     }
 
-    int getColumnNumber() override {
-        return matrix_ptr->getColumnNumber();
+  int getColumnNumber() override {
+      return 1;
     }
 
-    E get(int accessed_row, int accessed_column) override {
+   E get(int accessed_row, int accessed_column) override {
         if (accessed_row < 1 || accessed_row > getRowNumber()) {
             throw "Out of bound row index";
-        } else if (accessed_column < 1 || accessed_column > getColumnNumber()) {
-            throw "Out of bound column index"; //TODO i messaggi vanno migliorati 
+        } else if (accessed_column != 1) {
+            throw "Out of bound column index"; //TODO i messaggi vanno migliorati
             // I messaggi, almeno a me, non funzionano: si dovrebbe lanciare un oggetto "Bad_Size"
         } else {
-            return (accessed_column == accessed_row)? matrix_ptr->get(accessed_row, accessed_column) : zero; 
+            return matrix_ptr->get(accessed_row, accessed_row);
         }
     }
 

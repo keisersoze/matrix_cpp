@@ -1,5 +1,5 @@
 //
-// Created by Filippo Maganza on 12/11/2018.
+// Filippo Maganza and Arnaldo xxx
 //
 
 #include <iostream>

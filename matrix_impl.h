@@ -1,39 +1,12 @@
 //
-// Created by Filippo Maganza on 21/11/2018.
+// Filippo Maganza and Aranldo xxx
 //
-
-#ifndef MATRIX_CPP_MATRIX_H
-#define MATRIX_CPP_MATRIX_H
 
 #include <vector>
 #include <iostream>
 #include <memory>
 
 using namespace std;
-
-/* UTILITY FUNCTIONS */
-
-template <typename E> E getZeroElement (){
-    return nullptr;
-}
-
-template <> int getZeroElement <int> (){
-    return 0;
-}
-
-template <> double getZeroElement <double> (){
-    return 0.;
-}
-
-template <> float getZeroElement <float> (){
-    return 0.;
-}
-
-template <> char getZeroElement <char> (){
-    return '0';
-}
-
-//TODO possiamo aggiungere ulteriori specilizzazioni, sta alla nostra fantasia
 
 /* INTERFACE */
 
@@ -92,11 +65,11 @@ class transposed_matrix_impl : public matrix_impl <E>{
 
 private:
 
-    unique_ptr< matrix_impl<E> > matrix_ptr;
+    shared_ptr< matrix_impl<E> > matrix_ptr;
 
 public:
 
-    transposed_matrix_impl(unique_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(move(decorated_matrix_ptr)){
+    transposed_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(decorated_matrix_ptr){
     }
 
     int getRowNumber() override {
@@ -126,11 +99,11 @@ class diagonal_matrix_impl : public matrix_impl <E>{
 
 private:
 
-    unique_ptr< matrix_impl<E> > matrix_ptr;
+    shared_ptr< matrix_impl<E> > matrix_ptr;
 
 public:
 
-    diagonal_matrix_impl(unique_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(move(decorated_matrix_ptr)){
+    diagonal_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(decorated_matrix_ptr){
     }
 
     int getRowNumber() override {
@@ -151,35 +124,3 @@ public:
         }
     }
 };
-
-/* SUBMATRIX */
-
-
-template <typename E>
-class submatrix_impl : public matrix_impl <E>{
-
-private:
-
-    unique_ptr< matrix_impl<E> > matrix_ptr;
-
-public:
-
-    submatrix_impl(unique_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(move(decorated_matrix_ptr)){
-    }
-
-    int getRowNumber() override {
-        return matrix_ptr->getRowNumber();
-    }
-
-    int getColumnNumber() override {
-        return matrix_ptr->getColumnNumber();
-    }
-
-    E get(int accessed_row, int accessed_column) override {
-
-    }
-};
-
-
-
-#endif //MATRIX_CPP_MATRIX_H

@@ -84,3 +84,45 @@ void base_matrix<E, r, c>::print() {
 
 
 virtual E operator()(int accessed_row, int accessed_column) = 0;
+
+
+template < typename E>
+class matrix_tail{
+private:
+    unique_ptr < matrix_impl <E> > decorated_matrix;
+public:
+
+    matrix_tail(const unique_ptr<matrix_impl<E>> &decorated_matrix) : decorated_matrix(decorated_matrix) {}
+
+    void transpose(){
+        decorated_matrix.reset(new transposed_matrix_impl <E>(decorated_matrix.release()));
+    }
+
+};
+
+template < typename E>
+class matrix {
+
+private:
+
+    shared_ptr < matrix_impl <E> > matrix_tail_instance;
+
+public:
+
+    matrix(const vector<E> &data,const int &r, const int &c) {
+        base_matrix_impl <E> *base_matrix = new base_matrix_impl<E>(data,r,c);
+        matrix_tail_instance = make_shared <matrix_tail <E>> (make_unique < matrix_impl <E> > (base_matrix));
+    }
+
+    E get(int accessed_row, int accessed_column){
+        return matrix_tail_instance->getDecorated_matrix()->get(accessed_row,accessed_column);
+    }
+
+    matrix* transpose(){
+        matrix_tail_instance->transpose();
+        return this;
+    }
+
+    //transposed_matrix_impl <E> transposed_matrix_impl1 = new transposed_matrix_impl <E> (matrix_tail_instance->getDecorated_matrix().move());
+
+};

@@ -22,7 +22,6 @@ public:
 
     virtual int getColumnNumber() = 0;
 
-
 };
 
 
@@ -63,11 +62,11 @@ class transposed_matrix_impl : public matrix_impl <E>{ // by_arn:sicuro che può
 
 private:
 
-    shared_ptr< matrix_impl<E> > matrix_ptr; //TODO unique pointers
+    unique_ptr< matrix_impl<E> > matrix_ptr; //TODO unique pointers
 
 public:
 
-    transposed_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr): matrix_ptr(decorated_matrix_ptr){
+    transposed_matrix_impl(unique_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(move(decorated_matrix_ptr)){
     }
 
     int getRowNumber() override {
@@ -78,7 +77,7 @@ public:
         return matrix_ptr->getRowNumber();
     }
 
-    E get(int accessed_row, int accessed_column) {
+    E get(int accessed_row, int accessed_column) override {
         if (accessed_row < 1 || accessed_row > getRowNumber()) {
             throw "Out of bound row index";
         } else if (accessed_column < 1 || accessed_column > getColumnNumber()) {

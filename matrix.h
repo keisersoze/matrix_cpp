@@ -74,8 +74,8 @@ public:
 
 string prettyprint (const matrix<int> & m){
     string out("");
-    for (int i = 1 ; i < m.getRowNumber() ; ++i) {
-        for (int j = 1 ; j < m.getColumnNumber() ; ++j) {
+    for (int i = 1 ; i <= m.getRowNumber() ; ++i) {
+        for (int j = 1 ; j <= m.getColumnNumber() ; ++j) {
             out += to_string(m.get(i,j)) + " ";
         }
         out += "\n";

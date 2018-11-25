@@ -15,13 +15,14 @@ class matrix_impl {
 
 public:
 
-    virtual E get(int accessed_row, int accessed_column) = 0; //pure virtual
+    virtual E get(int accessed_row, int accessed_column) = 0;
 
     virtual int getRowNumber() = 0;
 
     virtual int getColumnNumber() = 0;
 
     virtual ~matrix_impl() {};
+
 };
 
 /* BASE MATRIX */
@@ -34,10 +35,16 @@ private:
     int r;
     int c;
     vector < E > data;
-
+    
 public:
 
-    base_matrix_impl(const vector<E> &data, int r, int c) : r(r), c(c), data(data) {}
+    base_matrix_impl(const vector<E> &data, int r, int c) : r(r), c(c), data(data) {
+        if (data.size() < r*c)
+            throw ("Invalid input vector.");
+        if (r < 1 || c < 1 ){
+            throw ("Invalid matrix dimensions");
+        }
+    }
 
     int getRowNumber() override {
         return r;
@@ -56,6 +63,10 @@ public:
             return data[c * (accessed_row - 1) + accessed_column - 1];
     }
 
+ /*   E operator() (int accessed_row, int accessed_column ){
+        return base_matrix_impl<E>::get(accessed_row, accessed_column); //Non funzia :(
+    }
+*/
 };
 
 /* TRANSPOSED MATRIX */
@@ -119,7 +130,6 @@ public:
             throw "Out of bound row index";
         } else if (accessed_column != 1) {
             throw "Out of bound column index"; //TODO i messaggi vanno migliorati
-            // I messaggi, almeno a me, non funzionano: si dovrebbe lanciare un oggetto "Bad_Size"
         } else {
             return matrix_ptr->get(accessed_row, accessed_row);
         }

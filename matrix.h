@@ -2,12 +2,12 @@
 // Filippo Maganza and Arnaldo Santoro
 //
 
-#include "matrix_impl.h"
+#include "iterator.h"
 
 template < typename E>
 class matrix_temp;
 
-template < typename E>
+template < typename E >
 class matrix {
 
 private:
@@ -42,9 +42,11 @@ public:
     matrix_temp <E> submatrix(pair <int, int > first_pair, pair <int ,int > second_pair){
         return matrix_temp <E> (move (make_shared <submatrix_matrix_impl <E> >(shared_ptr1, first_pair, second_pair)));
     }
+
+
 };
 
-template < typename E>
+template < typename E >
 class matrix_temp : public matrix <E>  {
 
 public:

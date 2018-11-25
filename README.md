@@ -61,3 +61,4 @@ It does things in this way so that other thing is accomplished. <-inglese per "f
 
 The file iterator.h contains things. They do things in this way so that other things are done. **FIL**
 
+Errors are const char *, thrown to inform the user. **FIL**

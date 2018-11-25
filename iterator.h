@@ -15,7 +15,8 @@ private:
 
 public:
 
-    column_matrix_iterator(shared_ptr<matrix_impl<E>> matrix_ptr) : shared_ptr1(matrix_ptr) , cr(1) , cc(1) {}
+    column_matrix_iterator(shared_ptr<matrix_impl<E>> matrix_ptr, unsigned r, unsigned c)
+    : shared_ptr1(matrix_ptr) , cr(r) , cc(c) {}
 
     column_matrix_iterator& operator ++(){
         cc++;

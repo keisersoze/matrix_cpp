@@ -19,6 +19,7 @@ try{
     matrix<int> m2 = m.diagonal();
     matrix<int> m3 = m.submatrix(pair<int, int> (1,1),pair<int, int>(2,2));
 
+    cout<<prettyprint(m1);
     cout<<m1.get(1,2);
     cout<<m2.get(2,1);
 //    cout<<m2(2,1);

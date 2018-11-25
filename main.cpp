@@ -17,6 +17,7 @@ int main (){
     matrix<int> m1 = m.transpose().submatrix(pair <int, int> (2,1), pair <int, int> (3,2));
     matrix<int> m2 = m.diagonal();
 
+    cout<<prettyprint(m1);
     cout<<m1.get(1,2);
     cout<<m2.get(2,1);
     

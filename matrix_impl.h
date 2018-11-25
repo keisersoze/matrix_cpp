@@ -15,11 +15,11 @@ class matrix_impl {
 
 public:
 
-    virtual E get(int accessed_row, int accessed_column) = 0; //pure virtual
+    virtual E get(int accessed_row, int accessed_column) const = 0; //pure virtual
 
-    virtual int getRowNumber() = 0;
+    virtual int getRowNumber() const = 0;
 
-    virtual int getColumnNumber() = 0;
+    virtual int getColumnNumber() const = 0;
 
     virtual ~matrix_impl() {};
 };
@@ -39,15 +39,15 @@ public:
 
     base_matrix_impl(const vector<E> &data, int r, int c) : r(r), c(c), data(data) {}
 
-    int getRowNumber() override {
+    int getRowNumber() const override {
         return r;
     }
 
-    int getColumnNumber() override {
+    int getColumnNumber() const override {
         return c;
     }
 
-    E get(int accessed_row, int accessed_column) override {
+    E get(int accessed_row, int accessed_column) const override {
         if (accessed_row < 1 || accessed_row > r) {
             throw "Out of bound row index";
         } else if (accessed_column < 1 || accessed_column > c) {
@@ -72,15 +72,15 @@ public:
     transposed_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(decorated_matrix_ptr){
     }
 
-    int getRowNumber() override {
+    int getRowNumber() const override {
         return matrix_ptr->getColumnNumber();
     }
 
-    int getColumnNumber() override {
+    int getColumnNumber() const override {
         return matrix_ptr->getRowNumber();
     }
 
-    E get(int accessed_row, int accessed_column) override {
+    E get(int accessed_row, int accessed_column) const override {
         if (accessed_row < 1 || accessed_row > getRowNumber()) {
             throw "Out of bound row index";
         } else if (accessed_column < 1 || accessed_column > getColumnNumber()) {
@@ -106,15 +106,15 @@ public:
     diagonal_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(decorated_matrix_ptr){
     }
 
-    int getRowNumber() override {
+    int getRowNumber() const override {
         return matrix_ptr->getRowNumber();
     }
 
-  int getColumnNumber() override {
+  int getColumnNumber() const override {
       return 1;
     }
 
-   E get(int accessed_row, int accessed_column) override {
+   E get(int accessed_row, int accessed_column) const override  {
         if (accessed_row < 1 || accessed_row > getRowNumber()) {
             throw "Out of bound row index";
         } else if (accessed_column != 1) {
@@ -136,7 +136,7 @@ private:
 
     shared_ptr< matrix_impl<E> > matrix_ptr;
 
-    int row_offset;
+    int row_offset; //TODO unsigned
     int column_offset;
     int r;
     int c;
@@ -158,15 +158,15 @@ public:
        }
     }
 
-    int getRowNumber() override {
+    int getRowNumber() const override {
         return r;
     }
 
-    int getColumnNumber() override {
+    int getColumnNumber() const override {
         return c;
     }
 
-    E get(int accessed_row, int accessed_column) override {
+    E get(int accessed_row, int accessed_column) const override {
         if (accessed_row < 1 || accessed_row > getRowNumber()) {
             throw "Out of bound row index";
         } else if (accessed_column < 1 || accessed_column > getColumnNumber()) {

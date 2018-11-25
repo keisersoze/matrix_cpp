@@ -135,34 +135,42 @@ class submatrix_matrix_impl : public matrix_impl <E>{
 private:
 
     shared_ptr< matrix_impl<E> > matrix_ptr;
-    //i due stati seguenti servono per chiamare il get con le dimensioni della sottomatrice.
-    //vanno impostati a " riga_del_primo_elemento_della_sottomatrice - 1 " e " colonna_del_primo_elemento_della_sottomatrice - 1 ".
+
     int row_offset;
     int column_offset;
-    // dimensioni della sottomatrice.
-    // le dimensioni della sottomatrice servono per controllare che non vada out_of_bound nella sottomatrice
-    // e.g.: in una sottomatrice 2x2 di una matrice 5x5 non dovrei poter trovare l'elemento che si trova in (4,4).
-    int sub_r;
-    int sub_c;
+    int r;
+    int c;
     
 public:
 
-   submatrix_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(decorated_matrix_ptr){
+   submatrix_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr,
+                         pair <int, int > first_pair, pair <int ,int > second_pair)
+                         :matrix_ptr(decorated_matrix_ptr){
+       if (first_pair.first < 1 || first_pair.second < 1 ||
+           second_pair.first > matrix_ptr->getRowNumber() || second_pair.second > matrix_ptr->getColumnNumber() ||
+           first_pair.first > second_pair.first || first_pair.second > second_pair.second){
+           throw "Invalid submatrix input.";
+       } else {
+           row_offset = first_pair.first - 1;
+           column_offset = first_pair.second - 1;
+           r = second_pair.first - first_pair.first + 1;
+           c = second_pair.second - first_pair.second + 1;
+       }
     }
 
     int getRowNumber() override {
-        return sub_r;
+        return r;
     }
 
     int getColumnNumber() override {
-        return sub_c;
+        return c;
     }
 
     E get(int accessed_row, int accessed_column) override {
         if (accessed_row < 1 || accessed_row > getRowNumber()) {
             throw "Out of bound row index";
         } else if (accessed_column < 1 || accessed_column > getColumnNumber()) {
-            throw "Out of bound column index"; //TODO i messaggi vanno migliorati
+            throw "Out of bound column index";
         } else {
             return matrix_ptr->get(accessed_row + row_offset, accessed_column + column_offset);
         }

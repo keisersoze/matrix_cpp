@@ -37,36 +37,11 @@ public:
     matrix_temp <E> diagonal(){
         return matrix_temp <E> (move (make_shared <diagonal_matrix_impl <E> >(shared_ptr1)));
     }
-/*
-    matrix_temp <E> submatrix(){
-        
-        // il costruttore standard di una sottomatrice ritorna una "sottomatrice" identica alla matrice di partenza
-        //sicuramente inutile, potenzialmente rimuovibile...? L'ho inserito per avere un costruttore standard per la sottomatrice.
-        
-        return this.submatrix(1, 1, getRowNumber, getColumnNumber)
+
+
+    matrix_temp <E> submatrix(pair <int, int > first_pair, pair <int ,int > second_pair){
+        return matrix_temp <E> (move (make_shared <submatrix_matrix_impl <E> >(shared_ptr1, first_pair, second_pair)));
     }
-    matrix_temp <E> submatrix(int upper_row, int upper_column, int lower_row, int lower_column){
-        
-        // l'input valido per la matrice è due coppie di interi:
-        // la prima coppia di valori indica riga e colonna del primo elemento della sottomatrice
-        // la seconda coppia di valori indica riga e colonna dell'ultimo elemento della sottomatrice
-        // l'input non è valido se la prima coppia "supera" la seconda coppia o se gli input non sono validi (input < 1 o input > getRowNumber o getColumnNumber) 
-        
-        if (upper_row < 1 || upper_column < 1 || lower_row < 1 || lower_column < 1 ||
-            lower_row > getRowNumber() || lower_column > getColumnNumber() || upper_row > lower_row || upper_column > lower_column){
-            throw "Invalid submatrix input."
-            }
-        else
-        {
-            // deve impostare i parametri della sottomatrice
-            row_offset = upper_row - 1;
-            column_offset = upper_column - 1;
-            sub_r = lower_row - upper_row + 1;
-            sub_c = lower_column - upper_column + 1;
-            return matrix_temp <E> (move (make_shared <submatrix_matrix_impl <E> >(shared_ptr1))); )) 
-        }
-    }
-*/
 };
 
 template < typename E>

@@ -28,7 +28,7 @@ public:
     }
 
     const E& operator *(){
-        return shared_ptr1->get(cr,cc);
+        return shared_ptr1->get_ref(cr,cc);
     }
 
     bool operator == (const column_matrix_iterator& x){

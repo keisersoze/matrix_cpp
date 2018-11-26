@@ -12,18 +12,14 @@ class matrix_temp;
 template < typename E >
 class matrix {
 
-private:
-
-    shared_ptr < matrix_impl <E> > shared_ptr1;
-
 protected:
 
-    matrix(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):shared_ptr1(move(decorated_matrix_ptr)){
-    }
+    shared_ptr < matrix_impl <E> > matrix_impl_ptr;
+
+    matrix(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_impl_ptr(decorated_matrix_ptr){}
 
 public:
 
-    /*
     matrix (const matrix & m){
         vector < E > v;
         auto b = m.begin();
@@ -32,58 +28,54 @@ public:
             v.push_back(*i);
         }
         v.push_back(*(m.end()));
-        shared_ptr1 = make_shared <base_matrix_impl <E>> (v,m.getRowNumber(),m.getColumnNumber());
-    }*/
-
+        matrix_impl_ptr = make_shared <base_matrix_impl <E>> (v,m.getRowNumber(),m.getColumnNumber());
+    }
 
     matrix(const vector<E> &data,const int &r, const int &c) {
-        shared_ptr1 = make_shared <base_matrix_impl <E>> (data,r,c);
+        matrix_impl_ptr = make_shared <base_matrix_impl <E>> (data,r,c);
     }
 
     E operator ()(int accessed_row, int accessed_column) const{
-        return shared_ptr1->get(accessed_row,accessed_column);
+        return matrix_impl_ptr->get(accessed_row,accessed_column);
     }
 
-    /*E& set (int accessed_row, int accessed_column) {
-        return shared_ptr1->get(accessed_row,accessed_column);
-    }*/
 
     E& operator ()(int accessed_row, int accessed_column) {
-        return shared_ptr1->get_ref(accessed_row,accessed_column);
+        return matrix_impl_ptr->get_ref(accessed_row,accessed_column);
     }
 
     E getRowNumber() const{
-        return shared_ptr1->getRowNumber();
+        return matrix_impl_ptr->getRowNumber();
     }
 
     E getColumnNumber() const{
-        return shared_ptr1->getColumnNumber();
+        return matrix_impl_ptr->getColumnNumber();
     }
 
     //se torniamo per valore chiama il copy costructor di matrix che fa la deep copy ed è una cosa che non vogliamo, così ho creato il tipo matrix_temp
     matrix_temp <E> transpose() const {
-        return matrix_temp <E> (move (make_shared <transposed_matrix_impl <E> >(shared_ptr1)));
+        return matrix_temp <E> (move (make_shared <transposed_matrix_impl <E> >(matrix_impl_ptr)));
     }
 
     matrix_temp <E> diagonal() const {
-        return matrix_temp <E> (move (make_shared <diagonal_impl <E> >(shared_ptr1)));
+        return matrix_temp <E> (move (make_shared <diagonal_impl <E> >(matrix_impl_ptr)));
     }
 
 
     matrix_temp <E> submatrix(pair <int, int > first_pair, pair <int ,int > second_pair) const{
-        return matrix_temp <E> (move (make_shared <submatrix_matrix_impl <E> >(shared_ptr1, first_pair, second_pair)));
+        return matrix_temp <E> (move (make_shared <submatrix_matrix_impl <E> >(matrix_impl_ptr, first_pair, second_pair)));
     }
 
     matrix_temp <E> diagonal_matrix() const {
-        return matrix_temp <E> (move (make_shared <diagonal_matrix_impl <E> >(shared_ptr1)));
+        return matrix_temp <E> (move (make_shared <diagonal_matrix_impl <E> >(matrix_impl_ptr)));
     }
 
     column_matrix_iterator <E> begin() const{
-        return column_matrix_iterator <E> (shared_ptr1, 1, 1);
+        return column_matrix_iterator <E> (matrix_impl_ptr, 1, 1);
     }
 
     column_matrix_iterator <E> end() const{
-        return column_matrix_iterator <E> (shared_ptr1, shared_ptr1->getRowNumber(), shared_ptr1->getRowNumber());
+        return column_matrix_iterator <E> (matrix_impl_ptr, matrix_impl_ptr->getRowNumber(), matrix_impl_ptr->getRowNumber());
     }
 };
 
@@ -91,10 +83,9 @@ template < typename E >
 class matrix_temp : public matrix <E>  {
 
 public:
-    matrix_temp(shared_ptr<matrix_impl<E>> decorated_matrix_ptr) : matrix <E> (move(decorated_matrix_ptr)) {}
+    matrix_temp(shared_ptr<matrix_impl<E>> decorated_matrix_ptr) : matrix <E> (decorated_matrix_ptr) {}
 
-
-
+    matrix_temp (const matrix_temp & m) : matrix <E> (m.matrix_impl_ptr) {}
 };
 
 /* UTILS FUNCTIONS */
@@ -107,6 +98,6 @@ string prettyprint (const matrix<int> & m){
         }
         out += "\n";
     }
-    return out;
+    return out + "\n";
 }
 

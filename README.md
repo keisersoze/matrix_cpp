@@ -25,8 +25,75 @@ Create forward iterators for the matrix traversing it either in row-major or col
 Initialize a new matrix:
 
 ``` c++
-std::vector < int > a = {1,2,3,4,5,6};
-matrix < int > m (a,2,3);
+std::vector < int > elements_vector_a = {1, 2, 3, 4, 5, 6};
+matrix < int > int_matrix (elements_vector_a, 2, 3);
+
+std::vector < double > elements_vector_b = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6};
+matrix < double > double_matrix(elements_vector_b, 3, 2);
+
+std::vector < char > elements_vector_c = {'a', 'b', 'd', 'g', 'e', 'g', '', '4', ']'};
+matrix < char > char_matrix(elements_vector_c, 3, 3);
+
+matrix < int > error (elements_vector_a, 0, 3); // error: invalid input row
+matrix < int > error (elements_vector_a, 2, -1); // error: invalid input column
+matrix < int > error (elements_vector_a, 3, 3); // error: invalid input vector
+
+double_matrix.getRowNumber() == 3; // true
+double_matrix.getColumnNumber() == 2; // true
+```
+
+Access elements of a matrix:
+
+``` c++
+double a_double = double_matrix(accessed_row,accessed_column);
+```
+
+Assign values to elements:
+
+``` c++
+int value;
+m(row,column);
+```
+
+Copy a matrix:
+```
+matrix<int> copied_matrix = int_matrix;
+matrix<double> double_matrix.transpose();
+auto int_matrix.diagonal();
+const auto int_matrix.diagonal_matrix(); // note the use of const to avoid accessing a const reference
+```
+
+Transpose a matrix:
+``` c++
+double_matrix.transpose();
+double a_double = double_matrix.transpose()(row, column);
+a_double == 0.4; // true
+```
+
+Obtain a vector of diagonal elements of a matrix:
+``` c++
+int_matrix.diagonal();
+
+```
+
+Obtain a const diagonal matrix:
+``` c++
+int row = 1, column = 2;
+const auto constant_diagonal_matrix int_matrix.diagonal_matrix(); //note the use of const
+
+constant_diagonal_matrix(row,column) = 666; // error: unmodifyable matrix
+int an_int = constant_diagonal_matrix(row,column);
+an_int == 0; // true
+constant_diagonal_matrix(2,2) == 5; // true
+```
+
+Obtain a submatrix:
+``` c++
+pair <int, int> first_element_position = (2, 2);
+pair <int, int> last_element_position = (3, 3);
+auto sub_matrix = char_matrix.submatrix( first_element_position, last_element_position);
+
+double a_double = double_matrix.submatrix( pair<int,int>(1,1), pair<int,int>(2,1));
 ```
 
 The client code have to manage two different classes: matrix and shared_matrix, the only difference is that the formers's copy construct does a deep copy of the data while the latter's copy constructor return a matrix that share data with the original one.
@@ -35,7 +102,7 @@ Our matrix template offer the following operations:
 
 ``` c++
 
-    E operator ()(int accessed_row, int accessed_column) const;
+    E operator ()( int accessed_row, int accessed_column) const;
 
     E& operator ()(int accessed_row, int accessed_column);
 
@@ -71,26 +138,29 @@ Our matrix template has been designed with the decorator pattern. In particular 
         the decoration class for the transposed matrix which has a pointer to the decorated matrix;
         it overrides the accessors calling the same methods to the wrapped matrix with inverted input. 
 
-* diagonal_matrix_impl:
+* diagonal_impl:
         the decoration class for the transposed matrix which has a shared pointer to the decorated matrix;
-        it is a vector (a matrix with r rows and 1 column) accessing elements of the decrated matrix which are on diagonal positions;
+        it is a vector (a matrix with r rows and 1 column) accessing elements of the decorated matrix which are on diagonal positions; note that its rows are the minimum between rows and columns of the decorated matrix.
     
-         
+* diagonal_matrix_impl:
+        the diagonal matrix is an unmodifyable matrix which returns ```0```s on non-diagonal positions;
+        it must be used with the keyword ```const``` upon copy even if the keyword ```auto``` is used; otherwise the user risks to cause an "Unmodifyable matrix" error.
+
 * submatrix_matrix_impl:
         a decoration of the matrix class, which has a shared pointer to the decorated matrix;
         it is a vector which accesses a portion of elements of the decorated matrix.
-        its creator takes two pairs of <int>s which refer to the positions of the first and last elements of the matrix;
+        its creator takes two pairs of ```<int>```s which refer to the positions of the first and last elements of the matrix;
         its default creator returns a decoration of the matrix with all the elements; it gives therefore no error, but it is not advisable to do so as it lengthen the chain of decorations;
 
 ###Shared pointers
-In our design we decided to use smart ponters over raw pointers to manage lifetime of the objects, thus..
+In our design we decided to use smart ponters over raw pointers to manage lifetime of the objects, thus preventing memory leaks from unexpected behaviours from user's program.**FIL**è ok? 
 
 Once we decided to use smart pointers we discussed the advantages / disadvantages between two possibile implemetations
 
 ###PIMPL idiom
 The PIMPL Idiom (Pointer to IMPLementation) is a technique for implementation hiding in which a public class wraps a structure or class that cannot be seen outside the library the public class is part of.
 
-We adopted PIMPL to
+We adopted PIMPL to 
 
 The file matrix.h contains the classes matrix and matrix_temp.
 The matrix_temp class has been created to avoid making a deep copy invoking the copy constructor:

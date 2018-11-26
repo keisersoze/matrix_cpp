@@ -16,7 +16,8 @@ protected:
 
     shared_ptr < matrix_impl <E> > matrix_impl_ptr;
 
-    matrix(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_impl_ptr(decorated_matrix_ptr){}
+    //use move constructor instead of copy constructor
+    matrix(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_impl_ptr(move(decorated_matrix_ptr)){}
 
 public:
 
@@ -30,7 +31,7 @@ public:
         matrix_impl_ptr = make_shared <base_matrix_impl <E>> (v,m.getRowNumber(),m.getColumnNumber());
     }
 
-    matrix(const vector<E> &data,const int &r, const int &c) {
+    matrix(const vector<E> &data, int r, int c) {
         matrix_impl_ptr = make_shared <base_matrix_impl <E>> (data,r,c);
     }
 
@@ -68,12 +69,12 @@ public:
         return matrix_temp <E> (move (make_shared <diagonal_matrix_impl <E> >(matrix_impl_ptr)));
     }
 
-    column_matrix_iterator <E> begin() const{
-        return column_matrix_iterator <E> (matrix_impl_ptr, 1, 1);
+    row_matrix_iterator <E> begin() const{
+        return row_matrix_iterator <E> (matrix_impl_ptr, 1, 1);
     }
 
-    column_matrix_iterator <E> end() const{
-        return column_matrix_iterator <E> (matrix_impl_ptr, matrix_impl_ptr->getRowNumber()+1 , 1);
+    row_matrix_iterator <E> end() const{
+        return row_matrix_iterator <E> (matrix_impl_ptr, matrix_impl_ptr->getRowNumber()+1 , 1);
     }
 };
 

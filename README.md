@@ -29,24 +29,33 @@ std::vector < int > a = {1,2,3,4,5,6};
 matrix < int > m (a,2,3);
 ```
 
-* Elements are accessed through the get(int accessed_row, int accessed_column) //and () operator// function, which uses the input to access the vector data at the corresponding position.
-     It's created by giving a vector<E> and two <int>'s as row and columns;
-             E.g.:
-                 matrix<double> m(vector_of_9_elements,3,3);
-                 m.get(2,1);
-                 
-                 
-    E.g.:
-            m.diagonal().get(3,1); // OK 
-            m.diagonal().get(3,2); // ERROR
-            
-            
-                    E.g.:
-                        m.submatrix(); // not advisable
-                        m.submatrix(pair<int, int> (2,2),pair<int, int>(3,3)); // returns a 2x2 matrix
-                        m.submatrix(pair<int, int> (2,2),pair<int, int>(3,3)).get(1,2) == m.get(2,3) // true
+The client code have to manage two different classes: matrix and shared_matrix, the only difference is that the formers's copy construct does a deep copy of the data while the latter's copy constructor return a matrix that share data with the original one.
 
+Our matrix template offer the following operations:
 
+``` c++
+
+    E operator ()(int accessed_row, int accessed_column) const;
+
+    E& operator ()(int accessed_row, int accessed_column);
+
+    E getRowNumber() const;
+
+    E getColumnNumber() const;
+
+    shared_matrix <E> transpose() const;
+
+    shared_matrix <E> diagonal() const;
+
+    shared_matrix <E> submatrix(pair <int, int > first_pair, pair <int ,int > second_pair) const;
+
+    const shared_matrix <E> diagonal_matrix() const;
+
+    row_matrix_iterator <E> begin() const;
+
+    row_matrix_iterator <E> end() const;
+    
+```
 
 ##DESIGN
 
@@ -74,6 +83,7 @@ Our matrix template has been designed with the decorator pattern. In particular 
         its default creator returns a decoration of the matrix with all the elements; it gives therefore no error, but it is not advisable to do so as it lengthen the chain of decorations;
 
 ###Shared pointers
+In our design process we analyzed two 
 
 ###PIMPL idiom
 The PIMPL Idiom (Pointer to IMPLementation) is a technique for implementation hiding in which a public class wraps a structure or class that cannot be seen outside the library the public class is part of.

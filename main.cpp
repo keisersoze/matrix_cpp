@@ -1,5 +1,5 @@
 //
-// Filippo Maganza and Arnaldo xxx
+// Filippo Maganza and Arnaldo Santoro
 //
 
 #include <iostream>
@@ -23,15 +23,17 @@ try{
     auto m1 = m.transpose().submatrix(pair <int, int> (2,1), pair <int, int> (3,2));
     auto m2 = m.diagonal();
     auto m3 = m.submatrix(pair<int, int> (1,1),pair<int, int>(2,2));
-    auto m4 = m.diagonal_matrix();
-    m4(1,1)=16;
+    matrix<int> m4 = m.diagonal();
+    //auto m4 = m.diagonal_matrix();
+    //m4(1,1)=16;
 
     m2(2,1) = 10;
     cout<<prettyprint(m);
-    cout<<prettyprint(m_);
+    //cout<<prettyprint(m_);
     cout<<prettyprint(m1);
     cout<<prettyprint(m2);
     cout<<prettyprint(m3);
+    cout<<prettyprint(m4);
 
     /*for (auto i = m1.begin(); i != m1.end() ; ++i) {
         cout<< *i;

@@ -87,8 +87,8 @@ public:
 };
 
 /* UTILS FUNCTIONS */
-
-string prettyprint (const matrix<int> & m){
+template < typename E >
+string prettyprint (const matrix<E> & m){
     string out("");
     for (int i = 1 ; i <= m.getRowNumber() ; ++i) {
         for (int j = 1 ; j <= m.getColumnNumber() ; ++j) {

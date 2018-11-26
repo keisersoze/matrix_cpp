@@ -26,12 +26,9 @@ template <> float getZeroElement <float> (){
     return 0.;
 }
 
-template <> char getZeroElement <char> (){
-    return '0';
-}
-
-template <> string getZeroElement <string> (){
-    return "";
+template <>
+unsigned getZeroElement <unsigned > (){
+    return 0;
 }
 
 /* INTERFACE */
@@ -284,13 +281,6 @@ public:
     }
 
     E &get_ref(int accessed_row, int accessed_column) override {
-        if (accessed_row < 1 || accessed_row > getRowNumber()) {
-            throw "Out of bound row index";
-        } else if (accessed_column != accessed_row)
-            return getZeroElement<E>();
-        else
-        {
-            return matrix_ptr->get_ref(accessed_row, accessed_row);
-        }
+        throw "Unmodifiable matrix";
     }
 };

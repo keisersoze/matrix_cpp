@@ -48,8 +48,8 @@ public:
         return shared_ptr1->get(accessed_row,accessed_column);
     }*/
 
-    void set(int accessed_row, int accessed_column, E new_elem) {
-        shared_ptr1->set(accessed_row,accessed_column, new_elem);
+    E& operator ()(int accessed_row, int accessed_column) {
+        return shared_ptr1->get_ref(accessed_row,accessed_column);
     }
 
     E getRowNumber() const{

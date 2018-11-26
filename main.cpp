@@ -20,7 +20,7 @@ try{
     matrix<int> m2 = m.diagonal();
     matrix<int> m3 = m.submatrix(pair<int, int> (1,1),pair<int, int>(2,2));
 
-    m1.set(1,2,10);
+    m1(1,2) = 10;
     cout<<prettyprint(m1);
     cout<<prettyprint(m2);
     //cout<<prettyprint(m);

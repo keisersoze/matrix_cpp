@@ -32,7 +32,7 @@ try{
     cout<<"double diagonal matrix column number is "<< double_diagonal_matrix.getColumnNumber()<<endl<<endl;
     cout<<prettyprint(double_matrix)<<"double matrix\n\n";
     cout<<prettyprint(double_diagonal_matrix)<<"double diagonal matrix \n\n";
-    cout<<prettyprint(double_diagonal_vector)<<"double diagonal vector \n\n"; //iterator goes out of bound
+//    cout<<prettyprint(double_diagonal_vector)<<"double diagonal vector \n\n"; //iterator goes out of bound
     cout<<prettyprint(diagonal_int_vector)<<"diagonal vector\n\n";
     cout<<prettyprint(transposed_int_submatrix)<<"transposed submatrix\n\n";
     transposed_int_submatrix(1,1) = 666;
@@ -44,8 +44,39 @@ try{
     /*for (auto i = m1.begin(); i != m1.end() ; ++i) {
         cout<< *i;
     }*/
+
+    matrix<int> copy_transposed_int_matrix = copy_int_matrix.transpose();
+
+    cout<<"\n" << prettyprint(copy_transposed_int_matrix)<<"transposed copied matrix\n";
+
+    auto copy_transposed_int_matrix2 = copy_int_matrix.transpose();
+
+    cout<<"\n" << prettyprint(copy_transposed_int_matrix2)<<"transposed copied matrix con auto\n";
+
+    auto copy_diagonal_int_matrix = copy_int_matrix.diagonal_matrix();
+
+    cout<<"\n" << prettyprint(copy_diagonal_int_matrix)<<"diagonal copied matrix con auto\n";
+
+ /*   matrix<int> copy_diagonal_int_matrix = copy_int_matrix.diagonal_matrix();
+
+    cout<<"\n" << prettyprint(copy_diagonal_int_matrix)<<"diagonal copied matrix\n";
+*/  // lancia errore Unmodifiable matrix
+    int vediamoSeSalvaIlValore {int_matrix.diagonal_matrix()(2,2)};
+    cout<<"vediamo se printa l'int da una diagonal matrix "<<vediamoSeSalvaIlValore<<"\n";
+
+    cout<<"Ok, ma se printo direttamente il valore? "<<int_matrix.diagonal_matrix()(2,2)<<"\n";
+
+    auto testMatrix = int_matrix.diagonal_matrix();
+
+    cout<<"\nMa allora dovrebbe funzionare anche questo: "<<testMatrix(2,2)<<"!\n";
+    
+    cout<<"some gets:"<<"\n"<<double_diagonal_vector(1,1)<<"\n"<<double_diagonal_matrix(2,2)<<int_submatrix2(2,2)<<"\n"<<transposed_int_submatrix(1,2); // commented out code throws row out of bound error
+
+    cout<<"\nSome dyslexic gest:\n"<<int_matrix(1,1)<<"\n"<<int_matrix(2,2)<<"\n"/*<<int_matrix(3,3)*/; // commented out code throws row out of bound error
+    
 }catch(char const* matrix_error ){
     cerr<<endl<<matrix_error<<endl;
+
 };
 
 return 0;

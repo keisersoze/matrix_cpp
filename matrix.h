@@ -27,7 +27,6 @@ public:
         for (auto i = b; i != e ; ++i) {
             v.push_back(*i);
         }
-        v.push_back(*(m.end()));
         matrix_impl_ptr = make_shared <base_matrix_impl <E>> (v,m.getRowNumber(),m.getColumnNumber());
     }
 
@@ -52,7 +51,6 @@ public:
         return matrix_impl_ptr->getColumnNumber();
     }
 
-    //se torniamo per valore chiama il copy costructor di matrix che fa la deep copy ed è una cosa che non vogliamo, così ho creato il tipo matrix_temp
     matrix_temp <E> transpose() const {
         return matrix_temp <E> (move (make_shared <transposed_matrix_impl <E> >(matrix_impl_ptr)));
     }
@@ -75,7 +73,7 @@ public:
     }
 
     column_matrix_iterator <E> end() const{
-        return column_matrix_iterator <E> (matrix_impl_ptr, matrix_impl_ptr->getRowNumber(), matrix_impl_ptr->getRowNumber());
+        return column_matrix_iterator <E> (matrix_impl_ptr, matrix_impl_ptr->getRowNumber()+1 , 1);
     }
 };
 

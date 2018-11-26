@@ -15,13 +15,14 @@ try{
                              { 7, 8, 9 } };*/
     std::vector < int > a2 = {1,2,3,4,5,6};
     matrix<int> m(a2,2,3);
-    //matrix<int> m_=m;
+    matrix<int> m_=m;
     auto m1 = m.transpose().submatrix(pair <int, int> (2,1), pair <int, int> (3,2));
     auto m2 = m.diagonal();
     auto m3 = m.submatrix(pair<int, int> (1,1),pair<int, int>(2,2));
 
     m2(2,1) = 10;
     cout<<prettyprint(m);
+    cout<<prettyprint(m_);
     cout<<prettyprint(m1);
     cout<<prettyprint(m2);
     cout<<prettyprint(m3);

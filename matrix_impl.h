@@ -159,7 +159,9 @@ public:
     }
 
     int getRowNumber() const override {
-        return matrix_ptr->getRowNumber();
+        unsigned rows (matrix_ptr->getRowNumber());
+        unsigned columns (matrix_ptr->getColumnNumber());
+        return rows < columns ? rows : columns ;
     }
 
   int getColumnNumber() const override {

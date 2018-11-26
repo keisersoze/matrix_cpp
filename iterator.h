@@ -20,7 +20,7 @@ public:
 
     column_matrix_iterator& operator ++(){
         cc++;
-        if (cc == shared_ptr1->getColumnNumber()) {
+        if (cc == shared_ptr1->getColumnNumber() + 1) {
             cc = 1;
             cr++;
         }

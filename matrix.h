@@ -23,12 +23,33 @@ protected:
 
 public:
 
+    /*
+    matrix (const matrix & m){
+        vector < E > v;
+        auto b = m.begin();
+        auto e = m.end();
+        for (auto i = b; i != e ; ++i) {
+            v.push_back(*i);
+        }
+        v.push_back(*(m.end()));
+        shared_ptr1 = make_shared <base_matrix_impl <E>> (v,m.getRowNumber(),m.getColumnNumber());
+    }*/
+
+
     matrix(const vector<E> &data,const int &r, const int &c) {
         shared_ptr1 = make_shared <base_matrix_impl <E>> (data,r,c);
     }
 
-    E get(int accessed_row, int accessed_column) const{
+    E operator ()(int accessed_row, int accessed_column) const{
         return shared_ptr1->get(accessed_row,accessed_column);
+    }
+
+    /*E& set (int accessed_row, int accessed_column) {
+        return shared_ptr1->get(accessed_row,accessed_column);
+    }*/
+
+    void set(int accessed_row, int accessed_column, E new_elem) {
+        shared_ptr1->set(accessed_row,accessed_column, new_elem);
     }
 
     E getRowNumber() const{
@@ -68,6 +89,8 @@ class matrix_temp : public matrix <E>  {
 public:
     matrix_temp(shared_ptr<matrix_impl<E>> decorated_matrix_ptr) : matrix <E> (move(decorated_matrix_ptr)) {}
 
+
+
 };
 
 /* UTILS FUNCTIONS */
@@ -76,7 +99,7 @@ string prettyprint (const matrix<int> & m){
     string out("");
     for (int i = 1 ; i <= m.getRowNumber() ; ++i) {
         for (int j = 1 ; j <= m.getColumnNumber() ; ++j) {
-            out += to_string(m.get(i,j)) + " ";
+            out += to_string(m(i,j)) + " ";
         }
         out += "\n";
     }

@@ -29,11 +29,11 @@ try{
 
     
     cout<<prettyprint(int_matrix)<<"first matrix\n\n";
-/*    cout<<"double diagonal matrix column number is "<< double_diagonal_matrix.getColumnNumber()<<endl<<endl;
+    cout<<"double diagonal matrix column number is "<< double_diagonal_matrix.getColumnNumber()<<endl<<endl;
     cout<<prettyprint(double_matrix)<<"double matrix\n\n";
     cout<<prettyprint(double_diagonal_matrix)<<"double diagonal matrix \n\n";
-*/    cout<<prettyprint(double_diagonal_vector)<<"double diagonal vector iterator GOESN'T out of bound\n\n"; //iterator goes out of bound
-  /*  cout<<prettyprint(diagonal_int_vector)<<"diagonal vector\n\n";
+    cout<<prettyprint(double_diagonal_vector)<<"double diagonal vector iterator GOESN'T out of bound\n\n"; //iterator goes out of bound
+    cout<<prettyprint(diagonal_int_vector)<<"diagonal vector\n\n";
     cout<<prettyprint(transposed_int_submatrix)<<"transposed submatrix\n\n";
     transposed_int_submatrix(1,1) = 666;
     cout<<prettyprint(int_matrix)<<"first matrix modified\n\n";
@@ -53,11 +53,12 @@ try{
     auto copy_diagonal_int_matrix = copy_int_matrix.diagonal_matrix();
 
     cout<<"\n" << prettyprint(copy_diagonal_int_matrix)<<"diagonal copied matrix con auto\n";
-*/
- /*   matrix<int> copy_diagonal_int_matrix = copy_int_matrix.diagonal_matrix();
+
+/*    matrix<int> copy_diagonal_int_matrix = copy_int_matrix.diagonal_matrix();
 
     cout<<"\n" << prettyprint(copy_diagonal_int_matrix)<<"diagonal copied matrix\n";
-*/  // lancia errore Unmodifiable matrix
+    // lancia errore Unmodifiable matrix
+*/
     int vediamoSeSalvaIlValore {int_matrix.diagonal_matrix()(2,2)};
     cout<<"vediamo se printa l'int da una diagonal matrix "<<vediamoSeSalvaIlValore<<"\n";
 
@@ -68,15 +69,15 @@ try{
     cout<<"\nMa allora dovrebbe funzionare anche questo: "<< testMatrix(2,2)<<"!\n";
 
 
-/*
-    cout<<"some gets:"<<"\n"<<double_diagonal_vector(1,1)<<"\n";
-    cout"\nSome gets:"<<double_diagonal_matrix(2,2)<<int_submatrix2(2,2)<<"\n"<<transposed_int_submatrix(1,2); // commented out code throws row out of bound error
-//stesso errore di riga 68
-*/    
 
-/*
-cout<<"\nSome dyslexic gest:\n"<<int_matrix(1,1)<<"\n"<<int_matrix(2,2)<<"\n"<<int_matrix(3,3); // commented out code throws row out of bound error
-*/
+    cout<<"Some gets:"<<"\n"<<double_diagonal_vector(1,1)<<"\n";
+    cout<<"\nSome gets:"<</*double_diagonal_matrix(2,2)<<int_submatrix2(2,2)<<*/"\n"<<transposed_int_submatrix(1,2); // commented out code throws row out of bound error
+//stesso errore di riga 68
+    
+
+
+cout<<"\nSome dyslexic gest:\n"<<int_matrix(1,1)<<"\n"<<int_matrix(2,2)<<"\n"/*<<int_matrix(3,3)*/; // commented out code throws row out of bound error
+
 }catch(char const* matrix_error ){
     cerr<<endl<<matrix_error<<endl;
 

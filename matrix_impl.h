@@ -8,6 +8,32 @@
 
 using namespace std;
 
+/* UTILS FUNCTIONS */
+
+template <typename E> E getZeroElement (){
+    return nullptr;
+}
+
+template <> int getZeroElement <int> (){
+    return 0;
+}
+
+template <> double getZeroElement <double> (){
+    return 0.;
+}
+
+template <> float getZeroElement <float> (){
+    return 0.;
+}
+
+template <> char getZeroElement <char> (){
+    return '0';
+}
+
+template <> string getZeroElement <string> (){
+    return "";
+}
+
 /* INTERFACE */
 
 template < typename E>
@@ -124,7 +150,7 @@ public:
 /* DIAGONAL MATRIX */
 
 template <typename E>
-class diagonal_matrix_impl : public matrix_impl <E>{
+class diagonal_impl : public matrix_impl <E>{
 
 private:
 
@@ -132,7 +158,7 @@ private:
 
 public:
 
-    diagonal_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(decorated_matrix_ptr){
+    diagonal_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(decorated_matrix_ptr){
     }
 
     int getRowNumber() const override {
@@ -220,6 +246,51 @@ public:
             throw "Out of bound column index";
         } else {
             return matrix_ptr->get_ref(accessed_row + row_offset, accessed_column + column_offset);
+        }
+    }
+};
+
+// DIAGONAL MATRIX //
+
+template <typename E>
+class diagonal_matrix_impl : public matrix_impl <E>{
+
+private:
+
+    shared_ptr< matrix_impl<E> > matrix_ptr;
+
+public:
+
+    diagonal_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_ptr(decorated_matrix_ptr){
+    }
+
+    int getRowNumber() const override {
+        return matrix_ptr->getRowNumber();
+    }
+
+    int getColumnNumber() const override {
+        return matrix_ptr->getColumnNumber();
+    }
+
+    E get(int accessed_row, int accessed_column) const override  {
+        if (accessed_row < 1 || accessed_row > getRowNumber()) {
+            throw "Out of bound row index";
+        } else if (accessed_column != accessed_row)
+            return getZeroElement<E>();
+        else
+        {
+            return matrix_ptr->get(accessed_row, accessed_row);
+        }
+    }
+
+    E &get_ref(int accessed_row, int accessed_column) override {
+        if (accessed_row < 1 || accessed_row > getRowNumber()) {
+            throw "Out of bound row index";
+        } else if (accessed_column != accessed_row)
+            return getZeroElement<E>();
+        else
+        {
+            return matrix_ptr->get_ref(accessed_row, accessed_row);
         }
     }
 };

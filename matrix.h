@@ -66,12 +66,16 @@ public:
     }
 
     matrix_temp <E> diagonal() const {
-        return matrix_temp <E> (move (make_shared <diagonal_matrix_impl <E> >(shared_ptr1)));
+        return matrix_temp <E> (move (make_shared <diagonal_impl <E> >(shared_ptr1)));
     }
 
 
     matrix_temp <E> submatrix(pair <int, int > first_pair, pair <int ,int > second_pair) const{
         return matrix_temp <E> (move (make_shared <submatrix_matrix_impl <E> >(shared_ptr1, first_pair, second_pair)));
+    }
+
+    matrix_temp <E> diagonal_matrix() const {
+        return matrix_temp <E> (move (make_shared <diagonal_matrix_impl <E> >(shared_ptr1)));
     }
 
     column_matrix_iterator <E> begin() const{

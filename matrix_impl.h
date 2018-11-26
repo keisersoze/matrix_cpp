@@ -17,7 +17,7 @@ public:
 
     virtual E get(int accessed_row, int accessed_column) const = 0;
 
-    virtual void set(int accessed_row, int accessed_column, E new_elem) = 0;
+    virtual E& get_ref(int accessed_row, int accessed_column) = 0;
 
     virtual int getRowNumber() const = 0;
 
@@ -65,19 +65,17 @@ public:
             return data[c * (accessed_row - 1) + accessed_column - 1];
     }
 
-    void set(int accessed_row, int accessed_column, E new_elem) override {
+    E &get_ref(int accessed_row, int accessed_column) override {
         if (accessed_row < 1 || accessed_row > r) {
             throw "Out of bound row index";
         } else if (accessed_column < 1 || accessed_column > c) {
             throw "Out of bound column index";
-        } else
-            data[c * (accessed_row - 1) + accessed_column - 1] = new_elem;
+        } else{
+            E& t= data.at(c * (accessed_row - 1) + accessed_column - 1);
+            return t;
+        }
     }
 
-    /*   E operator() (int accessed_row, int accessed_column ){
-           return base_matrix_impl<E>::get(accessed_row, accessed_column); //Non funzia :(
-       }
-   */
 };
 
 /* TRANSPOSED MATRIX */
@@ -111,15 +109,14 @@ public:
             return matrix_ptr->get(accessed_column, accessed_row);
     }
 
-    void set(int accessed_row, int accessed_column, E new_elem) override {
+    E &get_ref(int accessed_row, int accessed_column) override {
         if (accessed_row < 1 || accessed_row > getRowNumber()) {
             throw "Out of bound row index";
         } else if (accessed_column < 1 || accessed_column > getColumnNumber()) {
             throw "Out of bound column index";
         } else
-            matrix_ptr->set(accessed_column, accessed_row, new_elem);
+            return matrix_ptr->get_ref(accessed_column, accessed_row);
     }
-
 
 };
 
@@ -156,16 +153,15 @@ public:
         }
     }
 
-    void set(int accessed_row, int accessed_column, E new_elem) override {
+    E &get_ref(int accessed_row, int accessed_column) override {
         if (accessed_row < 1 || accessed_row > getRowNumber()) {
             throw "Out of bound row index";
         } else if (accessed_column != 1) {
             throw "Out of bound column index"; //TODO i messaggi vanno migliorati
         } else {
-            matrix_ptr->set(accessed_row, accessed_row, new_elem);
+            return matrix_ptr->get_ref(accessed_row, accessed_row);
         }
     }
-
 };
 
 /* SUBMATRIX MATRIX */
@@ -217,13 +213,13 @@ public:
         }
     }
 
-    void set(int accessed_row, int accessed_column, E new_elem) override {
+    E &get_ref(int accessed_row, int accessed_column) override {
         if (accessed_row < 1 || accessed_row > getRowNumber()) {
             throw "Out of bound row index";
         } else if (accessed_column < 1 || accessed_column > getColumnNumber()) {
             throw "Out of bound column index";
         } else {
-            matrix_ptr->set(accessed_row + row_offset, accessed_column + column_offset, new_elem);
+            return matrix_ptr->get_ref(accessed_row + row_offset, accessed_column + column_offset);
         }
     }
 };

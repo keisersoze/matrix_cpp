@@ -83,10 +83,14 @@ Our matrix template has been designed with the decorator pattern. In particular 
         its default creator returns a decoration of the matrix with all the elements; it gives therefore no error, but it is not advisable to do so as it lengthen the chain of decorations;
 
 ###Shared pointers
-In our design process we analyzed two 
+In our design we decided to use smart ponters over raw pointers to manage lifetime of the objects, thus..
+
+Once we decided to use smart pointers we discussed the advantages / disadvantages between two possibile implemetations
 
 ###PIMPL idiom
 The PIMPL Idiom (Pointer to IMPLementation) is a technique for implementation hiding in which a public class wraps a structure or class that cannot be seen outside the library the public class is part of.
+
+We adopted PIMPL to
 
 The file matrix.h contains the classes matrix and matrix_temp.
 The matrix_temp class has been created to avoid making a deep copy invoking the copy constructor:

@@ -32,8 +32,8 @@ try{
 /*    cout<<"double diagonal matrix column number is "<< double_diagonal_matrix.getColumnNumber()<<endl<<endl;
     cout<<prettyprint(double_matrix)<<"double matrix\n\n";
     cout<<prettyprint(double_diagonal_matrix)<<"double diagonal matrix \n\n";
-//    cout<<prettyprint(double_diagonal_vector)<<"double diagonal vector \n\n"; //iterator goes out of bound
-    cout<<prettyprint(diagonal_int_vector)<<"diagonal vector\n\n";
+*/    cout<<prettyprint(double_diagonal_vector)<<"double diagonal vector iterator GOESN'T out of bound\n\n"; //iterator goes out of bound
+  /*  cout<<prettyprint(diagonal_int_vector)<<"diagonal vector\n\n";
     cout<<prettyprint(transposed_int_submatrix)<<"transposed submatrix\n\n";
     transposed_int_submatrix(1,1) = 666;
     cout<<prettyprint(int_matrix)<<"first matrix modified\n\n";
@@ -63,9 +63,9 @@ try{
 
     cout<<"Ok, ma se printo direttamente il valore? "<<int_matrix.diagonal_matrix()(2,2)<<"\n";
 
-    auto testMatrix = int_matrix.diagonal_matrix();
+    const auto testMatrix = int_matrix.diagonal_matrix();
 
-    cout<<"\nMa allora dovrebbe funzionare anche questo: "<<testMatrix(2,2)<<"!\n";
+    cout<<"\nMa allora dovrebbe funzionare anche questo: "<< testMatrix(2,2)<<"!\n";
 
 
 /*

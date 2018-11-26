@@ -23,6 +23,8 @@ try{
     auto m1 = m.transpose().submatrix(pair <int, int> (2,1), pair <int, int> (3,2));
     auto m2 = m.diagonal();
     auto m3 = m.submatrix(pair<int, int> (1,1),pair<int, int>(2,2));
+    auto m4 = m.diagonal_matrix();
+    m4(1,1)=16;
 
     m2(2,1) = 10;
     cout<<prettyprint(m);

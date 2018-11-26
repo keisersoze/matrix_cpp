@@ -64,7 +64,7 @@ public:
         return matrix_temp <E> (move (make_shared <submatrix_matrix_impl <E> >(matrix_impl_ptr, first_pair, second_pair)));
     }
 
-    matrix_temp <E> diagonal_matrix() const {
+    const matrix_temp <E> diagonal_matrix() const {
         return matrix_temp <E> (move (make_shared <diagonal_matrix_impl <E> >(matrix_impl_ptr)));
     }
 

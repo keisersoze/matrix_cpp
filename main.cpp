@@ -104,9 +104,9 @@ try{
     
 cout<<"\nNow I'll make an incorrect get, using either higher or lower row or column than allowed";
 
-cout<<"\nSome dyslexic gest:\n"<<int_matrix(1,1)<<"\n"<<int_matrix(2,2)<<"\n"<<double_diagonal_vector(3,3);
+cout<<"\nSome dyslexic gest:\n"<<int_matrix(1,1)<<"\n"<<int_matrix(2,2)<<"\n"<<double_diagonal_vector.transpose()(1,2);
 
-}catch(char const* matrix_error ){
+} catch(char const* matrix_error ){
     cerr<<endl<<matrix_error<<endl;
 
 };

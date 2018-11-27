@@ -91,11 +91,10 @@ constant_diagonal_matrix(2,2) == 5; // true
 
 Obtain a submatrix:
 ``` c++
-pair <int, int> first_element_position = (2, 2);
-pair <int, int> last_element_position = (3, 3);
-auto sub_matrix = char_matrix.submatrix( first_element_position, last_element_position);
 
-double a_double = double_matrix.submatrix( pair<int,int>(1,1), pair<int,int>(2,1));
+auto sub_matrix = char_matrix.submatrix( 2,2, 3,3); // obtain a matrix which is a 2x2 submatrix with the element of the base matrix in position 2,2 as first element  
+
+double a_double = double_matrix.submatrix( 1,1, 2,1);
 ```
 
 
@@ -146,7 +145,8 @@ Our matrix template has been designed with the decorator pattern. In particular 
     
 * `diagonal_matrix_impl`
         the decoration class for the unmodifyable matrix which returns 0's on non-diagonal positions;
-        it must be used with the keyword ```const``` upon copy even if the keyword ```auto``` is used; otherwise the user risks to cause an "Unmodifyable matrix" error.
+        it must be used with the keyword ```const``` upon copy even if the keyword ```auto``` is used; otherwise the client risks to cause an "Unmodifyable matrix" error.
+        We offered a type conversion for the zeroes of the diagonal**FIL**
 
 * `submatrix_matrix_impl`
         a decoration of the matrix class, which has a shared pointer to the decorated matrix;
@@ -168,7 +168,12 @@ We adopted PIMPL to hide the management of the smart pointers inside the wrapper
 
 The file iterator.h contains things. They do things in this way so that other things are done. **FIL**
 
-Errors are const char *, thrown to inform the user. **FIL**
+Errors are const char *, thrown to inform the user about the type of errors. **FIL**
 
 ###Pros and cons
+
+//Creare una matrice con un vettore è scomodo//
+The use of a Decorator Design Pattern implies the possibility of a long chain of calls.
+By using a matrix which uses predefinite zero conversions. This is a disadvantage for the use of types which are not predefinite, but it's easily fixable.
+By using a ```diagonal_matrix()``` method without the use of the ```const``` keyword the user may throw error messages during a simple print.***FIL**
 

@@ -10,25 +10,39 @@ using namespace std;
 
 /* UTILS FUNCTIONS */
 
-template <typename E> E getZeroElement (){
+template <typename E> 
+E getZeroElement (){
     return nullptr;
 }
 
-template <> int getZeroElement <int> (){
+template <> 
+int getZeroElement <int> (){
     return 0;
 }
 
-template <> double getZeroElement <double> (){
+template <> 
+double getZeroElement <double> (){
     return 0.;
 }
 
-template <> float getZeroElement <float> (){
+template <> 
+float getZeroElement <float> (){
     return 0.;
 }
 
 template <>
 unsigned getZeroElement <unsigned > (){
     return 0;
+}
+
+template <> 
+char getZeroElement <char> () {
+    return '';
+}
+
+template <> 
+string getZeroElement <string>(){
+    return "";
 }
 
 /* INTERFACE */

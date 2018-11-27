@@ -39,6 +39,8 @@ Below are presented all the operation offered by `matrix <E>` and `shared_matrix
 
     shared_matrix <E> diagonal() const;
 
+    shared_matrix <E> submatrix( int first_row, int first_col, int last_row ,int last_col ) const;
+
     shared_matrix <E> submatrix(pair <int, int > first_pair, pair <int ,int > second_pair) const;
 
     const shared_matrix <E> diagonal_matrix() const;

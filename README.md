@@ -113,6 +113,12 @@ Obtain a submatrix:
 auto sub_matrix = char_matrix.submatrix( 2,2, 3,3); // obtain a matrix which is a 2x2 submatrix with the element of the base matrix in position 2,2 as first element  
 ```
 
+Use matrix iterator methods `begin()` and `end()`:
+``` c++
+auto begin = matrix.begin(); // returns the first element of the matrix.
+auto begin = matrix.end(); // Actual use is for cycles, as it returns the first past-the-end element of the matrix.
+``
+
 ## DESIGN
 
 In this section we explain our design for the project.
@@ -152,13 +158,22 @@ The PIMPL Idiom (Pointer to IMPLementation) is a technique for implementation hi
 
 We adopted PIMPL to hide the management of the smart pointers inside the wrapper class `matrix` thus offering a better usability and security (user can never directly access pointers).
 
-### Iterators
 
-The file iterator.h contains things. They do things in this way so that other things are done. **FIL**
+###Iterators
+We implemented two forward iterators: row iterator and column iterator.
+They have a shared pointer to a matrix and two integer for the current row and columns; they get a reference to the matrix elements. 
+They also overload the operators:
 
-Errors are const char *, thrown to inform the user about the type of errors. **FIL**
+``` c++
+row_matrix_iterator& operator ++();
 
+const E& operator *();
 
+bool operator == (const row_matrix_iterator& x);
+
+bool operator != (const row_matrix_iterator& x);
+
+```
 
 ### Pros and cons
 
@@ -177,8 +192,12 @@ Errors are const char *, thrown to inform the user about the type of errors. **F
         By using a matrix which uses predefinite zero conversions we demostrate how a detailed conversion may be made. This is a disadvantage per se for the use of types which are not predefinite, but it's easily changeable and mantainable.
 
 * Const Diagonal matrix:
-        By using a ```diagonal_matrix()``` method without the use of the ```const``` keyword the user may throw error messages during simple operations such as a simple print.
+        By using a `diagonal_matrix()` method without the use of the `const` keyword the user may throw error messages during simple operations such as a simple print.
         Thus the user is required to write the word by himself.
+
+* Get Row and Column Number methods:
+        One may notice that for some classes the methods return a value of the decorator, for some other they return a call to the decorated matrix.
+        The call to a decorator element is done only when absolutely necessary, exposing to potentially long calls; incidentally the classes that call the decorated matrix are the classes for which is highly unlikely that a user would decorate too much: a `matrix.transpose().diagonal_matrix().transpose().transpose().getColumnNumber()` is a long chain of calls but has no real use, as the user could have simply (and more realistically) called a much more efficient and equivalent `matrix.diagonal_matrix().getColumnNumber()`;
 
 * Errors:
         Errors are const char *, thrown to inform the user about the type of errors.

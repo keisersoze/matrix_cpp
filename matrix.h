@@ -22,9 +22,7 @@ public:
 
     matrix (const matrix & m){
         vector < E > v;
-        auto b = m.begin();
-        auto e = m.end();
-        for (auto i = b; i != e ; ++i) {
+        for (auto i = m.begin(); i != m.end() ; ++i) {
             v.push_back(*i);
         }
         matrix_impl_ptr = make_shared <base_matrix_impl <E>> (v,m.getRowNumber(),m.getColumnNumber());
@@ -80,6 +78,14 @@ public:
 
     row_matrix_iterator <E> end() const{
         return row_matrix_iterator <E> (matrix_impl_ptr, matrix_impl_ptr->getRowNumber()+1 , 1);
+    }
+
+    column_matrix_iterator <E> begin_column() const{
+        return column_matrix_iterator <E> (matrix_impl_ptr, 1, 1);
+    }
+
+    column_matrix_iterator <E> end_column() const{
+        return column_matrix_iterator <E> (matrix_impl_ptr, 1 , matrix_impl_ptr->getColumnNumber()+1);
     }
 
 };

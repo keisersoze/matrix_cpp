@@ -273,11 +273,12 @@ public:
 
     E get(int accessed_row, int accessed_column) const override  {
         if (accessed_row < 1 || accessed_row > getRowNumber()) {
-            throw "Out of bound row index";
-        } else if (accessed_column != accessed_row)
+            throw ("Out of bound row index");
+        } else if (accessed_column < 1 || accessed_column > getColumnNumber()) {
+            throw ("Out of bound column index");
+        } else if (accessed_column != accessed_row){
             return getZeroElement<E>();
-        else
-        {
+        } else {
             return matrix_ptr->get(accessed_row, accessed_row);
         }
     }

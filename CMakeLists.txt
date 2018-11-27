@@ -3,4 +3,4 @@ project(matrix_cpp)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(test copy_test.cpp)
+add_executable(test awesome_test.cpp)

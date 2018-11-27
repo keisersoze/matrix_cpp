@@ -162,8 +162,24 @@ Errors are const char *, thrown to inform the user about the type of errors. **F
 
 ### Pros and cons
 
-//Creare una matrice con un vettore è scomodo//
-The use of a Decorator Design Pattern implies the possibility of a long chain of calls.
-By using a matrix which uses predefinite zero conversions. This is a disadvantage for the use of types which are not predefinite, but it's easily fixable.
-By using a ```diagonal_matrix()``` method without the use of the ```const``` keyword the user may throw error messages during a simple print.***FIL**
 
+* Matrix Creators
+        Pro: Our implementation uses a vector to represent a matrix. This way is far more efficent than, say, a vector of vectors.
+        Con: In the way we've implemented the matrix creators it's a bit unconfortable and counterintuitive for a user, which probably has to build a vector of elements from the more usual vector of vectors.
+        As a solution, a built-in method of conversion may be implemented.
+        
+* Design Choice:
+        Pro: Easy to mantain well known design pattern.
+        Con: The use of a Decorator Design Pattern implies the possibility of a long chain of calls.
+        It may be wise to make use the deep copies of matrices with a long chain of calls when possible.
+
+* Diagonal Matrix:
+        By using a matrix which uses predefinite zero conversions we demostrate how a detailed conversion may be made. This is a disadvantage per se for the use of types which are not predefinite, but it's easily changeable and mantainable.
+
+* Const Diagonal matrix:
+        By using a ```diagonal_matrix()``` method without the use of the ```const``` keyword the user may throw error messages during simple operations such as a simple print.
+        Thus the user is required to write the word by himself.
+
+* Errors:
+        Errors are const char *, thrown to inform the user about the type of errors.
+        Their coding simplicity is difficoultly mantainable, but it does the work of informing the user on which errors he's making. **FIL**

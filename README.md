@@ -1,3 +1,4 @@
+Filippo Maganza (858532) and Arnaldo Santoro
 
 Assignment 1: Matrix Library
 
@@ -144,7 +145,7 @@ In our design we decided to use smart ponters over raw pointers to manage lifeti
 
 Once we decided to use smart pointers we discussed the advantages / disadvantages between two possible implementations: `std::shared_ptr` and `std::unique_ptr`.
 
-We have choose to use `std::shared_ptr` because in our design the objects of the decorator chain could have multiple wrapper objects ( e.g. a `matrix` object and a decorator object)
+We have choosen to use `std::shared_ptr` because in our design the objects of the decorator chain could have multiple wrapper objects ( e.g. a `matrix` object and a decorator object).
 
 ###PIMPL idiom
 The PIMPL Idiom (Pointer to IMPLementation) is a technique for implementation hiding in which a public class wraps a structure or class that cannot be seen outside the library the public class is part of.

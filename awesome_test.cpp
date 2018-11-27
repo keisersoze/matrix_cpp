@@ -6,10 +6,6 @@
 #include <memory>
 #include "matrix.h"
 #include <string>
-template <typename E>
-void print_row_col(const matrix<E>& matrix){
-    cout<<"this matrix's row and column numbers are "<<matrix.getRowNumber()<<" and "<<matrix.getColumnNumber()<<endl<<endl;
-}
 
 int main (){
 try{

@@ -117,7 +117,7 @@ Use matrix iterator methods `begin()` and `end()`:
 ``` c++
 auto begin = matrix.begin(); // returns the first element of the matrix.
 auto begin = matrix.end(); // Actual use is for cycles, as it returns the first past-the-end element of the matrix.
-``
+```
 
 ## DESIGN
 

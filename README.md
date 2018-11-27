@@ -145,6 +145,16 @@ Our matrix template has been designed with the decorator pattern. In particular 
 
 * `submatrix_matrix_impl <E>`
         the decoration class for a submatrix. The submatrix is modeled with two pair of int that represent the first and last elements of the submatrix. The class overrides accessors performing additional controls based on the size of the submatrix.
+        
+The pros and cons of this solution are:
+
+* Pros: 
+    * Simplicity
+    * Flexibility (it is possible to add new decorators to support new operations )
+    * Easy to mantain 
+    * Well known design pattern
+* Cons: 
+    * The use of a decorator design pattern with dynamic polymorphism implies the possibility of a long chain of calls thus causing a deterioration of the performance. It may be wise to make use the deep copies of matrices with a long chain of calls when possible.
 
 ### Shared pointers
 In our design we decided to use smart ponters over raw pointers to manage lifetime of the objects, thus preventing memory leaks from unexpected behaviours from user's program.
@@ -159,13 +169,15 @@ The PIMPL Idiom (Pointer to IMPLementation) is a technique for implementation hi
 We adopted PIMPL to hide the management of the smart pointers inside the wrapper class `matrix` thus offering a better usability and security (user can never directly access pointers).
 
 
-###Iterators
+### Iterators
 We implemented two forward iterators: row iterator and column iterator.
 They have a shared pointer to a matrix and two integer for the current row and columns; they get a reference to the matrix elements. 
 They also overload the operators:
 
 ``` c++
 row_matrix_iterator& operator ++();
+
+row_matrix_iterator& operator ++(int);
 
 const E& operator *();
 
@@ -175,30 +187,6 @@ bool operator != (const row_matrix_iterator& x);
 
 ```
 
-### Pros and cons
+### The zero element
+We used a templated function to return the zero element of a given type. For numerical types we implemented a specialization of the template that return the correct value instead of a null pointer.
 
-
-* Matrix Creators
-        Pro: Our implementation uses a vector to represent a matrix. This way is far more efficent than, say, a vector of vectors.
-        Con: In the way we've implemented the matrix creators it's a bit unconfortable and counterintuitive for a user, which probably has to build a vector of elements from the more usual vector of vectors.
-        As a solution, a built-in method of conversion may be implemented.
-        
-* Design Choice:
-        Pro: Easy to mantain well known design pattern.
-        Con: The use of a Decorator Design Pattern implies the possibility of a long chain of calls.
-        It may be wise to make use the deep copies of matrices with a long chain of calls when possible.
-
-* Diagonal Matrix:
-        By using a matrix which uses predefinite zero conversions we demostrate how a detailed conversion may be made. This is a disadvantage per se for the use of types which are not predefinite, but it's easily changeable and mantainable.
-
-* Const Diagonal matrix:
-        By using a `diagonal_matrix()` method without the use of the `const` keyword the user may throw error messages during simple operations such as a simple print.
-        Thus the user is required to write the word by himself.
-
-* Get Row and Column Number methods:
-        One may notice that for some classes the methods return a value of the decorator, for some other they return a call to the decorated matrix.
-        The call to a decorator element is done only when absolutely necessary, exposing to potentially long calls; incidentally the classes that call the decorated matrix are the classes for which is highly unlikely that a user would decorate too much: a `matrix.transpose().diagonal_matrix().transpose().transpose().getColumnNumber()` is a long chain of calls but has no real use, as the user could have simply (and more realistically) called a much more efficient and equivalent `matrix.diagonal_matrix().getColumnNumber()`;
-
-* Errors:
-        Errors are const char *, thrown to inform the user about the type of errors.
-        Their coding simplicity is difficoultly mantainable, but it does the work of informing the user on which errors he's making. **FIL**

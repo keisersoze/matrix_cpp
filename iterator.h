@@ -27,6 +27,12 @@ public:
         return *this;
     }
 
+    row_matrix_iterator& operator ++(int){
+        row_matrix_iterator tmp(*this);
+        operator++();
+        return tmp;
+    }
+
     const E& operator *(){
         return shared_ptr1->get_ref(cr,cc);
     }
@@ -62,6 +68,12 @@ public:
             cc++;
         }
         return *this;
+    }
+
+    column_matrix_iterator& operator ++(int){
+        column_matrix_iterator tmp(*this);
+        operator++();
+        return tmp;
     }
 
     const E& operator *(){

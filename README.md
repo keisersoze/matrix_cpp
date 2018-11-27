@@ -186,7 +186,7 @@ We adopted PIMPL to hide the management of the smart pointers inside the wrapper
 
 ### Iterators
 We implemented two forward iterators: row iterator and column iterator.
-They have a shared pointer to a matrix and two integer for the current row and columns; they get a reference to the matrix elements. 
+They have a shared pointer to a `matrix_impl <E>` and two integer for the current row and columns. 
 They overload the operators:
 
 ``` c++

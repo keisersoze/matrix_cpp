@@ -1,4 +1,4 @@
-Filippo Maganza (858532) and Arnaldo Santoro
+Filippo Maganza (858532) and Arnaldo Santoro (822274)
 
 Assignment 1: Matrix Library
 

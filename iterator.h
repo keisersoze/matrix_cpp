@@ -68,11 +68,11 @@ public:
         return shared_ptr1->get_ref(cr,cc);
     }
 
-    bool operator == (const row_matrix_iterator& x){
+    bool operator == (const column_matrix_iterator& x){
         return cc == x.cc && cr == x.cr;
     }
 
-    bool operator != (const row_matrix_iterator& x){
+    bool operator != (const column_matrix_iterator& x){
         return ! operator == (x);
     }
 

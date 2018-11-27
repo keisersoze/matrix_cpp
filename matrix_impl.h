@@ -219,6 +219,21 @@ public:
            c = second_pair.second - first_pair.second + 1;
        }
     }
+    
+    submatrix_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr,
+                         int first_row, int first_col, int last_row, int last_col)
+                         :matrix_ptr(decorated_matrix_ptr){
+       if (first_row < 1 || first_col < 1 ||
+           last_row > matrix_ptr->getRowNumber() || last_col > matrix_ptr->getColumnNumber() ||
+           first_row > last_row || first_col > last_col){
+           throw "Invalid submatrix input.";
+       } else {
+           row_offset = first_row - 1;
+           column_offset = first_col - 1;
+           r = last_row - first_row + 1;
+           c = last_col - first_col + 1;
+       }
+    }
 
     int getRowNumber() const override {
         return r;

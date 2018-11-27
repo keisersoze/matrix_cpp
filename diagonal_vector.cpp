@@ -20,7 +20,7 @@ int main (){
 
     print_row_col(double_diagonal_vector);
 
-    cout<<"\nit works even if it's transposed.\n"<<prettyprint(double_diagonal_vector.transpose())<<;
+    cout<<"\nit works even if it's transposed.\n"<<prettyprint(double_diagonal_vector.transpose());
 
         print_row_col(double_diagonal_vector.transpose());
 

@@ -25,11 +25,11 @@ public:
         for (auto i = m.begin(); i != m.end() ; ++i) {
             v.push_back(*i);
         }
-        matrix_impl_ptr = make_shared <base_matrix_impl <E>> (v,m.getRowNumber(),m.getColumnNumber());
+        matrix_impl_ptr = make_shared <base_matrix_impl <E> > (v,m.getRowNumber(),m.getColumnNumber());
     }
 
     matrix(const vector<E> &data, int r, int c) {
-        matrix_impl_ptr = make_shared <base_matrix_impl <E>> (data,r,c);
+        matrix_impl_ptr = make_shared <base_matrix_impl <E> > (data,r,c);
     }
 
 
@@ -95,7 +95,7 @@ class matrix_temp : public matrix <E>  {
 
 public:
 
-    matrix_temp(shared_ptr<matrix_impl<E>> decorated_matrix_ptr){
+    matrix_temp(shared_ptr<matrix_impl<E> > decorated_matrix_ptr){
         this->matrix_impl_ptr = move (decorated_matrix_ptr);
     }
 

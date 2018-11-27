@@ -138,7 +138,7 @@ Our matrix template has been designed with the decorator pattern. In particular 
         it override accessors returning the 0 element of the type `<E>` in the non-diagonal positions.
 
 * `submatrix_matrix_impl <E>`
-        the decoration class for a submatrix. The submatrix is modeled with two pair of int that represent the first and last elements of the submatrix; it overrides accessors performing additional controls based on the size of the submatrix.
+        the decoration class for a submatrix. The submatrix is modeled with two pair of int that represent the first and last elements of the submatrix. The class overrides accessors performing additional controls based on the size of the submatrix.
 
 ### Shared pointers
 In our design we decided to use smart ponters over raw pointers to manage lifetime of the objects, thus preventing memory leaks from unexpected behaviours from user's program.

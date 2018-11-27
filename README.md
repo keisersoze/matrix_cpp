@@ -48,6 +48,10 @@ Below are presented all the operation offered by `matrix <E>` and `shared_matrix
     row_matrix_iterator <E> begin() const;
 
     row_matrix_iterator <E> end() const;
+
+    column_matrix_iterator <E> begin() const;
+
+    column_matrix_iterator <E> end() const;
     
 ```
 ### Examples

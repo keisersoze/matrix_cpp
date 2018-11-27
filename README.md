@@ -115,7 +115,7 @@ constant_diagonal_matrix(row,column) = 666; // error: unmodifyable matrix
 Obtain a submatrix:
 ``` c++
 auto sub_matrix_a = char_matrix.submatrix( 2,2, 3,3); 
-// obtain a matrix which is a 2x2 submatrix with the element of the base matrix in position 2,2 as first element  
+// obtain a matrix which is a 2x2 submatrix with the element of the decorated matrix in position 2,2 as first element and the element at position (3,3) as the last element.
 
 pair<int,int> first_pair = (1,1);
 pair<int,int> last_pair = (2,3);

@@ -35,16 +35,6 @@ unsigned getZeroElement <unsigned > (){
     return 0;
 }
 
-template <> 
-char getZeroElement <char> () {
-    return '';
-}
-
-template <> 
-string getZeroElement <string>(){
-    return "";
-}
-
 /* INTERFACE */
 
 template < typename E>

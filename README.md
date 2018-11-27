@@ -15,17 +15,36 @@ The matrices returned by such operators must share the data with the original ma
 
 Create forward iterators for the matrix traversing it either in row-major or column-major order. Any matrix should be traversable in either direction regardless of its natural representation order. Any given iterator will traverse only in a given order.
 
-##ASSUMPTIONS
-
-* vectors are nx1 matrix
-* covectors are 1xn matrix
-* the diagonalmatrix can
-
 ##USAGE
 
-The client code have to manage two different templated classes: `matrix <E>` and its derived class `shared_matrix  <E>` . The only difference is that the formers's copy construct does a deep copy of the data while the latter's copy constructor return a matrix that share data with the original one.
+The client code have to manage two different templated classes: `matrix <E>` and its derived class `shared_matrix  <E>`. The only difference is that the formers's copy construct does a deep copy of the data while the latter's copy constructor return a matrix that share data with the original one.
 
-Below are presented all the operation supported by the library.
+Below are presented all the operation offered by `matrix <E>` and `shared_matrix  <E>` classes.
+
+``` c++
+
+    E operator ()( int accessed_row, int accessed_column) const;
+
+    E& operator ()(int accessed_row, int accessed_column);
+
+    E getRowNumber() const;
+
+    E getColumnNumber() const;
+
+    shared_matrix <E> transpose() const;
+
+    shared_matrix <E> diagonal() const;
+
+    shared_matrix <E> submatrix(pair <int, int > first_pair, pair <int ,int > second_pair) const;
+
+    const shared_matrix <E> diagonal_matrix() const;
+
+    row_matrix_iterator <E> begin() const;
+
+    row_matrix_iterator <E> end() const;
+    
+```
+###Examples
 
 Initialization a new matrix:
 
@@ -67,7 +86,7 @@ auto copied_matrix = double_matrix.transpose(); //Copy with shared data
 const auto copied_matrix = int_matrix.diagonal_matrix(); // note the use of const to avoid accessing a const reference
 ```
 
-Transpose a matrix:
+Obtain a transposed a matrix:
 ``` c++
 double a_double = double_matrix.transpose()
 ```
@@ -75,7 +94,6 @@ double a_double = double_matrix.transpose()
 Obtain a vector of diagonal elements of a matrix:
 ``` c++
 int_matrix.diagonal();
-
 ```
 
 Obtain a const diagonal matrix:
@@ -84,75 +102,39 @@ int row = 1, column = 2;
 const auto constant_diagonal_matrix int_matrix.diagonal_matrix(); //note the use of const
 
 constant_diagonal_matrix(row,column) = 666; // error: unmodifyable matrix
-int an_int = constant_diagonal_matrix(row,column);
-an_int == 0; // true
-constant_diagonal_matrix(2,2) == 5; // true
 ```
 
 Obtain a submatrix:
 ``` c++
-
 auto sub_matrix = char_matrix.submatrix( 2,2, 3,3); // obtain a matrix which is a 2x2 submatrix with the element of the base matrix in position 2,2 as first element  
-
-double a_double = double_matrix.submatrix( 1,1, 2,1);
-```
-
-
-Our matrix template offer the following operations:
-
-``` c++
-
-    E operator ()( int accessed_row, int accessed_column) const;
-
-    E& operator ()(int accessed_row, int accessed_column);
-
-    E getRowNumber() const;
-
-    E getColumnNumber() const;
-
-    shared_matrix <E> transpose() const;
-
-    shared_matrix <E> diagonal() const;
-
-    shared_matrix <E> submatrix(pair <int, int > first_pair, pair <int ,int > second_pair) const;
-
-    const shared_matrix <E> diagonal_matrix() const;
-
-    row_matrix_iterator <E> begin() const;
-
-    row_matrix_iterator <E> end() const;
-    
 ```
 
 ##DESIGN
 
-In this section we explain the design 
+In this section we explain our design for the project.
+ 
 ###Decorator design pattern
 
 Our matrix template has been designed with the decorator pattern. In particular we have implemented this pattern using the dynamic polymorphism offered by c++ :
 
-* `matrix_impl` is the interface for the base matrix class and the decorator classes. 
+* `matrix_impl <E>` is the interface for the base matrix class and the decorator classes. 
 
-* `base_matrix_impl` own the concrete data of the matrix. Has two integers r and c that represent row and column numbers, and a vector data, of type E, which contains the elements of the matrix. 
+* `base_matrix_impl <E>` own the concrete data of the matrix. Has two integers r and c that represent row and column numbers, and a vector data, of type E, which contains the elements of the matrix. 
 
-* `transposed_matrix_impl`
-        the decoration class for the transposed matrix which has a pointer to the decorated matrix;
+* `transposed_matrix_impl <E>`
+        the decoration class for the transposed matrix;
         it overrides the accessors calling the same methods to the decorated matrix with inverted input. 
 
-* `diagonal_impl`
+* `diagonal_impl <E>`
         the decoration class for the vector which contains the diagonal elements of the decorated matrix;
         it is a vector (a matrix with r rows and 1 column) accessing elements of the decorated matrix which are on diagonal positions; note that its rows are the minimum between rows and columns of the decorated matrix.
     
-* `diagonal_matrix_impl`
+* `diagonal_matrix_impl <E>`
         the decoration class for the unmodifyable matrix which returns 0's on non-diagonal positions;
-        it must be used with the keyword ```const``` upon copy even if the keyword ```auto``` is used; otherwise the client risks to cause an "Unmodifyable matrix" error.
-        We offered a type conversion for the zeroes of the diagonal**FIL**
+        it override accessors returning the 0 element of the type `<E>` in the non-diagonal positions.
 
-* `submatrix_matrix_impl`
-        a decoration of the matrix class, which has a shared pointer to the decorated matrix;
-        it is a vector which accesses a portion of elements of the decorated matrix.
-        its creator takes two pairs of ```<int>```s which refer to the positions of the first and last elements of the matrix;
-        its default creator returns a decoration of the matrix with all the elements; it gives therefore no error, but it is not advisable to do so as it lengthen the chain of decorations;
+* `submatrix_matrix_impl <E>`
+        the decoration class for a submatrix. The submatrix is modeled with two pair of int that represent the first and last elements of the submatrix; it overrides accessors performing additional controls based on the size of the submatrix.
 
 ###Shared pointers
 In our design we decided to use smart ponters over raw pointers to manage lifetime of the objects, thus preventing memory leaks from unexpected behaviours from user's program.
@@ -162,13 +144,16 @@ Once we decided to use smart pointers we discussed the advantages / disadvantage
 ###PIMPL idiom
 The PIMPL Idiom (Pointer to IMPLementation) is a technique for implementation hiding in which a public class wraps a structure or class that cannot be seen outside the library the public class is part of.
 
-We adopted PIMPL to hide the management of the smart pointers inside the wrapper class `matrix` thus offering a better usability. 
+We adopted PIMPL to hide the management of the smart pointers inside the wrapper class `matrix` thus offering a better usability and security (user can never directly access pointers).
 
 ###Iterators
 
 The file iterator.h contains things. They do things in this way so that other things are done. **FIL**
 
 Errors are const char *, thrown to inform the user about the type of errors. **FIL**
+
+### 
+
 
 ###Pros and cons
 

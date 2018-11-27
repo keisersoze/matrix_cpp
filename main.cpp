@@ -13,8 +13,7 @@ void print_row_col(const matrix<E>& matrix){
 
 int main (){
 try{
-    
-    // DECLARATIONS //
+
 
     std::vector < int > a2 = {1,2,3,4,5,6};
     std::vector < float > a1 = {0.1,0.2,0.3,0.4,0.5,0.6};
@@ -58,6 +57,7 @@ try{
     cout<<prettyprint(transposed_int_submatrix.diagonal_matrix())<<"transposed diagonal submatrix.\n\n";
     
     //Modifying elements of a matrix doesn't affect copied matrices
+
     cout<<"\nModifying elements of a matrix doesn't affect copied matrices:\n";
     transposed_int_submatrix(1,1) = 666;
 

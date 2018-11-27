@@ -31,6 +31,7 @@ try{
     
     //      **PRINTS OF DECLARED MATRICES**            //
     //A matrix is printed with a subtitled explaination//
+    //More concisely in multiple_methods_test
 
     cout<<prettyprint(int_matrix)<<"first matrix\n\n";
 
@@ -100,10 +101,7 @@ try{
 
     cout<<"Luckily that's just an exclamation mark, and not a factorial\nNow some gets from a double_matrix.diagonal_vector: ";
     cout<<"\n"<<double_diagonal_vector(1,1)<<"\n";
-
-//    cout<<"\nSome gets:"<<double_diagonal_matrix(2,2)<<int_submatrix2(2,2)<<"\n"<<transposed_int_submatrix(1,2); // commented out code throws row out of bound error
-//stesso errore di riga 68
-    
+  
 cout<<"\nNow I'll make an incorrect get, using either higher or lower row or column than allowed";
 
 cout<<"\nSome dyslexic gest:\n"<<int_matrix(1,1)<<"\n"<<int_matrix(2,2)<<"\n"<<double_diagonal_vector.transpose()(1,2);

@@ -4,7 +4,7 @@ Assignment 1: Matrix Library
 
 Due date: 27/11/2018 
 
-##REQUIREMENT SPECIFICATION
+## REQUIREMENT SPECIFICATION
 
 Implement a templated library handling matrices, vectors, and covectors; where vectors are nx1 matrices and covectors are 1xn matrices.
 
@@ -19,7 +19,7 @@ The matrices returned by such operators must share the data with the original ma
 
 Create forward iterators for the matrix traversing it either in row-major or column-major order. Any matrix should be traversable in either direction regardless of its natural representation order. Any given iterator will traverse only in a given order.
 
-##USAGE
+## USAGE
 
 The client code have to manage two different templated classes: `matrix <E>` and its derived class `shared_matrix  <E>`. The only difference is that the formers's copy construct does a deep copy of the data while the latter's copy constructor return a matrix that share data with the original one.
 
@@ -48,7 +48,7 @@ Below are presented all the operation offered by `matrix <E>` and `shared_matrix
     row_matrix_iterator <E> end() const;
     
 ```
-###Examples
+### Examples
 
 Initialization a new matrix:
 
@@ -113,11 +113,11 @@ Obtain a submatrix:
 auto sub_matrix = char_matrix.submatrix( 2,2, 3,3); // obtain a matrix which is a 2x2 submatrix with the element of the base matrix in position 2,2 as first element  
 ```
 
-##DESIGN
+## DESIGN
 
 In this section we explain our design for the project.
  
-###Decorator design pattern
+### Decorator design pattern
 
 Our matrix template has been designed with the decorator pattern. In particular we have implemented this pattern using the dynamic polymorphism offered by c++ :
 
@@ -140,28 +140,27 @@ Our matrix template has been designed with the decorator pattern. In particular 
 * `submatrix_matrix_impl <E>`
         the decoration class for a submatrix. The submatrix is modeled with two pair of int that represent the first and last elements of the submatrix; it overrides accessors performing additional controls based on the size of the submatrix.
 
-###Shared pointers
+### Shared pointers
 In our design we decided to use smart ponters over raw pointers to manage lifetime of the objects, thus preventing memory leaks from unexpected behaviours from user's program.
 
 Once we decided to use smart pointers we discussed the advantages / disadvantages between two possible implementations: `std::shared_ptr` and `std::unique_ptr`.
 
 We have choosen to use `std::shared_ptr` because in our design the objects of the decorator chain could have multiple wrapper objects ( e.g. a `matrix` object and a decorator object).
 
-###PIMPL idiom
+### PIMPL idiom
 The PIMPL Idiom (Pointer to IMPLementation) is a technique for implementation hiding in which a public class wraps a structure or class that cannot be seen outside the library the public class is part of.
 
 We adopted PIMPL to hide the management of the smart pointers inside the wrapper class `matrix` thus offering a better usability and security (user can never directly access pointers).
 
-###Iterators
+### Iterators
 
 The file iterator.h contains things. They do things in this way so that other things are done. **FIL**
 
 Errors are const char *, thrown to inform the user about the type of errors. **FIL**
 
-### 
 
 
-###Pros and cons
+### Pros and cons
 
 //Creare una matrice con un vettore è scomodo//
 The use of a Decorator Design Pattern implies the possibility of a long chain of calls.

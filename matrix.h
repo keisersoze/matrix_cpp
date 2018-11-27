@@ -16,10 +16,9 @@ protected:
 
     shared_ptr < matrix_impl <E> > matrix_impl_ptr;
 
-    //use move constructor instead of copy constructor
-    matrix(shared_ptr < matrix_impl <E> > decorated_matrix_ptr):matrix_impl_ptr(move(decorated_matrix_ptr)){}
-
 public:
+
+    matrix() {}
 
     matrix (const matrix & m){
         vector < E > v;
@@ -35,14 +34,15 @@ public:
         matrix_impl_ptr = make_shared <base_matrix_impl <E>> (data,r,c);
     }
 
+
     E operator ()(int accessed_row, int accessed_column) const{
         return matrix_impl_ptr->get(accessed_row,accessed_column);
     }
 
-
     E& operator ()(int accessed_row, int accessed_column) {
         return matrix_impl_ptr->get_ref(accessed_row,accessed_column);
     }
+
 
     E getRowNumber() const{
         return matrix_impl_ptr->getRowNumber();
@@ -52,22 +52,23 @@ public:
         return matrix_impl_ptr->getColumnNumber();
     }
 
+
     matrix_temp <E> transpose() const {
-        return matrix_temp <E> (move (make_shared <transposed_matrix_impl <E> >(matrix_impl_ptr)));
+        return matrix_temp <E> (make_shared <transposed_matrix_impl <E> >(matrix_impl_ptr));
     }
 
     matrix_temp <E> diagonal() const {
-        return matrix_temp <E> (move (make_shared <diagonal_impl <E> >(matrix_impl_ptr)));
+        return matrix_temp <E> (make_shared <diagonal_impl <E> >(matrix_impl_ptr));
     }
 
-
     matrix_temp <E> submatrix(pair <int, int > first_pair, pair <int ,int > second_pair) const{
-        return matrix_temp <E> (move (make_shared <submatrix_matrix_impl <E> >(matrix_impl_ptr, first_pair, second_pair)));
+        return matrix_temp <E> (make_shared <submatrix_matrix_impl <E> >(matrix_impl_ptr, first_pair, second_pair));
     }
 
     const matrix_temp <E> diagonal_matrix() const {
-        return matrix_temp <E> (move (make_shared <diagonal_matrix_impl <E> >(matrix_impl_ptr)));
+        return matrix_temp <E> (make_shared <diagonal_matrix_impl <E> >(matrix_impl_ptr));
     }
+
 
     row_matrix_iterator <E> begin() const{
         return row_matrix_iterator <E> (matrix_impl_ptr, 1, 1);
@@ -76,16 +77,24 @@ public:
     row_matrix_iterator <E> end() const{
         return row_matrix_iterator <E> (matrix_impl_ptr, matrix_impl_ptr->getRowNumber()+1 , 1);
     }
+
 };
 
 template < typename E >
 class matrix_temp : public matrix <E>  {
 
 public:
-    matrix_temp(shared_ptr<matrix_impl<E>> decorated_matrix_ptr) : matrix <E> (decorated_matrix_ptr) {}
 
-    matrix_temp (const matrix_temp & m) : matrix <E> (m.matrix_impl_ptr) {}
+    matrix_temp(shared_ptr<matrix_impl<E>> decorated_matrix_ptr){
+        this->matrix_impl_ptr = move (decorated_matrix_ptr);
+    }
+
+    matrix_temp (const matrix_temp & m) {
+        this->matrix_impl_ptr = m.matrix_impl_ptr;
+    }
+
 };
+
 
 /* UTILS FUNCTIONS */
 template < typename E >

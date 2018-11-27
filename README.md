@@ -1,6 +1,9 @@
+
 Assignment 1: Matrix Library
 
 Due date: 27/11/2018 
+
+##REQUIREMENT SPECIFICATION
 
 Implement a templated library handling matrices, vectors, and covectors; where vectors are nx1 matrices and covectors are 1xn matrices.
 
@@ -140,6 +143,8 @@ Our matrix template has been designed with the decorator pattern. In particular 
 In our design we decided to use smart ponters over raw pointers to manage lifetime of the objects, thus preventing memory leaks from unexpected behaviours from user's program.
 
 Once we decided to use smart pointers we discussed the advantages / disadvantages between two possible implementations: `std::shared_ptr` and `std::unique_ptr`.
+
+We have choose to use `std::shared_ptr` because in our design the objects of the decorator chain could have multiple wrapper objects ( e.g. a `matrix` object and a decorator object)
 
 ###PIMPL idiom
 The PIMPL Idiom (Pointer to IMPLementation) is a technique for implementation hiding in which a public class wraps a structure or class that cannot be seen outside the library the public class is part of.

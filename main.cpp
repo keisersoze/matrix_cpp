@@ -41,6 +41,7 @@ try{
     cout<<prettyprint(double_diagonal_matrix)<<"double diagonal matrix \n\n";
     
     //A double diagonal vector modifies the column and row number, adjusting it to proper size.
+    //More concise main for the issue in DiagonalVector.cpp
 
     cout<<prettyprint(double_diagonal_vector)<<"double diagonal vector iterator doesn't go out of bound;\n\n";
 
@@ -57,6 +58,7 @@ try{
     cout<<prettyprint(transposed_int_submatrix.diagonal_matrix())<<"transposed diagonal submatrix.\n\n";
     
     //Modifying elements of a matrix doesn't affect copied matrices
+    //Better main for the issue in copy_test.cpp
 
     cout<<"\nModifying elements of a matrix doesn't affect copied matrices:\n";
     transposed_int_submatrix(1,1) = 666;

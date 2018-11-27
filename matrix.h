@@ -65,6 +65,10 @@ public:
         return matrix_temp <E> (make_shared <submatrix_matrix_impl <E> >(matrix_impl_ptr, first_pair, second_pair));
     }
 
+    matrix_temp <E> submatrix(int first_row, int first_col, int last_row, int last_col) const{
+        return matrix_temp <E> (make_shared <submatrix_matrix_impl <E> >(matrix_impl_ptr, first_row, first_col, last_row, last_col));
+    }
+
     const matrix_temp <E> diagonal_matrix() const {
         return matrix_temp <E> (make_shared <diagonal_matrix_impl <E> >(matrix_impl_ptr));
     }
@@ -107,5 +111,10 @@ string prettyprint (const matrix<E> & m){
         out += "\n";
     }
     return out + "\n";
+}
+
+template <typename E>
+void print_row_col(const matrix<E>& matrix){
+    cout<<"this matrix's row and column numbers are "<<matrix.getRowNumber()<<" and "<<matrix.getColumnNumber()<<endl<<endl;
 }
 

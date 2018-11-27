@@ -208,7 +208,7 @@ private:
     int c;
     
 public:
-
+    
    submatrix_matrix_impl(shared_ptr < matrix_impl <E> > decorated_matrix_ptr,
                          pair <int, int > first_pair, pair <int ,int > second_pair)
                          :matrix_ptr(decorated_matrix_ptr){

@@ -19,10 +19,15 @@ Create forward iterators for the matrix traversing it either in row-major or col
 
 * vectors are nx1 matrix
 * covectors are 1xn matrix
+* the diagonalmatrix can
 
 ##USAGE
 
-Initialize a new matrix:
+The client code have to manage two different templated classes: `matrix <E>` and its derived class `shared_matrix  <E>` . The only difference is that the formers's copy construct does a deep copy of the data while the latter's copy constructor return a matrix that share data with the original one.
+
+Below are presented all the operation supported by the library.
+
+Initialization a new matrix:
 
 ``` c++
 std::vector < int > elements_vector_a = {1, 2, 3, 4, 5, 6};
@@ -52,22 +57,19 @@ Assign values to elements:
 
 ``` c++
 int value;
-m(row,column);
+m(row,column) = value;
 ```
 
 Copy a matrix:
 ```
-matrix<int> copied_matrix = int_matrix;
-matrix<double> double_matrix.transpose();
-auto int_matrix.diagonal();
-const auto int_matrix.diagonal_matrix(); // note the use of const to avoid accessing a const reference
+matrix<int> copied_matrix = int_matrix; //Deep copy -> data are NOT shared
+auto copied_matrix = double_matrix.transpose(); //Copy with shared data
+const auto copied_matrix = int_matrix.diagonal_matrix(); // note the use of const to avoid accessing a const reference
 ```
 
 Transpose a matrix:
 ``` c++
-double_matrix.transpose();
-double a_double = double_matrix.transpose()(row, column);
-a_double == 0.4; // true
+double a_double = double_matrix.transpose()
 ```
 
 Obtain a vector of diagonal elements of a matrix:
@@ -96,7 +98,6 @@ auto sub_matrix = char_matrix.submatrix( first_element_position, last_element_po
 double a_double = double_matrix.submatrix( pair<int,int>(1,1), pair<int,int>(2,1));
 ```
 
-The client code have to manage two different classes: matrix and shared_matrix, the only difference is that the formers's copy construct does a deep copy of the data while the latter's copy constructor return a matrix that share data with the original one.
 
 Our matrix template offer the following operations:
 
@@ -126,48 +127,48 @@ Our matrix template offer the following operations:
 
 ##DESIGN
 
+In this section we explain the design 
 ###Decorator design pattern
 
 Our matrix template has been designed with the decorator pattern. In particular we have implemented this pattern using the dynamic polymorphism offered by c++ :
 
-* matrix_impl: is the interface for the base matrix class and the decorator classes. 
+* `matrix_impl` is the interface for the base matrix class and the decorator classes. 
 
-* base_matrix_impl: has two integers r and c that represent row and column numbers, and a vector data, of type E, which contains the elemnts of the matrix. 
+* `base_matrix_impl` own the concrete data of the matrix. Has two integers r and c that represent row and column numbers, and a vector data, of type E, which contains the elements of the matrix. 
 
-* transposed_matrix_impl:
+* `transposed_matrix_impl`
         the decoration class for the transposed matrix which has a pointer to the decorated matrix;
-        it overrides the accessors calling the same methods to the wrapped matrix with inverted input. 
+        it overrides the accessors calling the same methods to the decorated matrix with inverted input. 
 
-* diagonal_impl:
-        the decoration class for the transposed matrix which has a shared pointer to the decorated matrix;
+* `diagonal_impl`
+        the decoration class for the vector which contains the diagonal elements of the decorated matrix;
         it is a vector (a matrix with r rows and 1 column) accessing elements of the decorated matrix which are on diagonal positions; note that its rows are the minimum between rows and columns of the decorated matrix.
     
-* diagonal_matrix_impl:
-        the diagonal matrix is an unmodifyable matrix which returns ```0```s on non-diagonal positions;
+* `diagonal_matrix_impl`
+        the decoration class for the unmodifyable matrix which returns 0's on non-diagonal positions;
         it must be used with the keyword ```const``` upon copy even if the keyword ```auto``` is used; otherwise the user risks to cause an "Unmodifyable matrix" error.
 
-* submatrix_matrix_impl:
+* `submatrix_matrix_impl`
         a decoration of the matrix class, which has a shared pointer to the decorated matrix;
         it is a vector which accesses a portion of elements of the decorated matrix.
         its creator takes two pairs of ```<int>```s which refer to the positions of the first and last elements of the matrix;
         its default creator returns a decoration of the matrix with all the elements; it gives therefore no error, but it is not advisable to do so as it lengthen the chain of decorations;
 
 ###Shared pointers
-In our design we decided to use smart ponters over raw pointers to manage lifetime of the objects, thus preventing memory leaks from unexpected behaviours from user's program.**FIL**è ok? 
+In our design we decided to use smart ponters over raw pointers to manage lifetime of the objects, thus preventing memory leaks from unexpected behaviours from user's program.
 
-Once we decided to use smart pointers we discussed the advantages / disadvantages between two possibile implemetations
+Once we decided to use smart pointers we discussed the advantages / disadvantages between two possible implementations: `std::shared_ptr` and `std::unique_ptr`.
 
 ###PIMPL idiom
 The PIMPL Idiom (Pointer to IMPLementation) is a technique for implementation hiding in which a public class wraps a structure or class that cannot be seen outside the library the public class is part of.
 
-We adopted PIMPL to 
-
-The file matrix.h contains the classes matrix and matrix_temp.
-The matrix_temp class has been created to avoid making a deep copy invoking the copy constructor:
-It does things in this way so that other thing is accomplished. <-inglese per "fa cose" **FIL**
+We adopted PIMPL to hide the management of the smart pointers inside the wrapper class `matrix` thus offering a better usability. 
 
 ###Iterators
 
 The file iterator.h contains things. They do things in this way so that other things are done. **FIL**
 
 Errors are const char *, thrown to inform the user. **FIL**
+
+###Pros and cons
+

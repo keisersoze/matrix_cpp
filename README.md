@@ -109,7 +109,7 @@ Obtain a const diagonal matrix:
 int row = 1, column = 2;
 const auto constant_diagonal_matrix int_matrix.diagonal_matrix(); //note the use of const
 
-constant_diagonal_matrix(row,column) = 666; // error: unmodifyable matrix
+constant_diagonal_matrix(row,column) = 666; // error: unmodifiable matrix
 ```
 
 Obtain a submatrix:
@@ -151,7 +151,7 @@ Our matrix template has been designed with the decorator pattern. In particular 
         it is a vector (a matrix with r rows and 1 column) accessing elements of the decorated matrix which are on diagonal positions; note that its rows are the minimum between rows and columns of the decorated matrix.
     
 * `diagonal_matrix_impl <E>`
-        the decoration class for the unmodifyable matrix which returns 0's on non-diagonal positions;
+        the decoration class for the unmodifiable matrix which returns 0's on non-diagonal positions;
         it override accessors returning the 0 element of the type `<E>` in the non-diagonal positions.
 
 * `submatrix_matrix_impl <E>`
@@ -183,7 +183,7 @@ We adopted PIMPL to hide the management of the smart pointers inside the wrapper
 ### Iterators
 We implemented two forward iterators: row iterator and column iterator.
 They have a shared pointer to a matrix and two integer for the current row and columns; they get a reference to the matrix elements. 
-They also overload the operators:
+They overload the operators:
 
 ``` c++
 row_matrix_iterator& operator ++();

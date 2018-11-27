@@ -87,7 +87,9 @@ Copy a matrix:
 ```
 matrix<int> copied_matrix = int_matrix; //Deep copy -> data are NOT shared
 auto copied_matrix = double_matrix.transpose(); //Copy with shared data
-const auto copied_matrix = int_matrix.diagonal_matrix(); // note the use of const to avoid accessing a const reference
+
+const auto copied_matrix = int_matrix.diagonal_matrix(); 
+// note the use of const to avoid accessing a const reference
 ```
 
 Obtain a transposed a matrix:
@@ -110,7 +112,14 @@ constant_diagonal_matrix(row,column) = 666; // error: unmodifyable matrix
 
 Obtain a submatrix:
 ``` c++
-auto sub_matrix = char_matrix.submatrix( 2,2, 3,3); // obtain a matrix which is a 2x2 submatrix with the element of the base matrix in position 2,2 as first element  
+auto sub_matrix_a = char_matrix.submatrix( 2,2, 3,3); 
+// obtain a matrix which is a 2x2 submatrix with the element of the base matrix in position 2,2 as first element  
+
+pair<int,int> first_pair = (1,1);
+pair<int,int> last_pair = (2,3);
+auto sub_matrix_b = char_matrix.submatrix( first_pair, last_pair); 
+// two methods to obtain a submatrix were coded to show a possible, clearer, alternative.
+// the authors would prefer to keep only a method for semplicity and clarity but the example was interesting enough to be kept till the last hour, and it remained in the last version.
 ```
 
 Use matrix iterator methods `begin()` and `end()`:
